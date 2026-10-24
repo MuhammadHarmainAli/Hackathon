@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard | HCM Lite</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+  <div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="admin.html">
+        <span class="brand-icon">H</span>
+        <span>HCM <strong>Lite</strong></span>
+      </a>
+
+      <div class="workspace">
+        <span class="workspace-label">WORKSPACE</span>
+        <p id="sidebar-company">Your Company</p>
+        <span class="workspace-status">
+          <span class="status-dot"></span>
+          Admin workspace
+        </span>
+      </div>
+
+      <nav class="navigation" aria-label="Main navigation">
+        <span class="nav-heading">MENU</span>
+
+        <a class="nav-link active" href="admin.html" aria-current="page">
+          <span class="nav-icon">▦</span>
+          Dashboard
+        </a>
+
+        <a class="nav-link" href="employees.html">
+          <span class="nav-icon">♙</span>
+          Employees
+        </a>
+
+        <a class="nav-link" href="leaves.html">
+          <span class="nav-icon">▤</span>
+          Leave Requests
+          <span class="nav-count" id="pending-badge">0</span>
+        </a>
+
+        <a class="nav-link" href="payroll.html">
+          <span class="nav-icon">＄</span>
+          Payroll
+        </a>
+
+        <a class="nav-link" href="settings.html">
+          <span class="nav-icon">⚙</span>
+          Company Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">?</div>
+          <strong>Need some help?</strong>
+          <p>Manage your team from one place.</p>
+        </div>
+
+        <button class="logout-button" id="logout-btn" type="button">
+          <span class="nav-icon">↪</span>
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation"
+            aria-expanded="false">☰</button>
+
+          <div class="breadcrumb">
+            Workspace <span>/</span> <strong>Dashboard</strong>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <span class="today-date" id="today-date">Admin Workspace</span>
+
+          <div class="profile">
+            <div class="avatar">A</div>
+            <div class="profile-info">
+              <strong id="admin-name">Administrator</strong>
+              <span>Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page heading -->
+      <section class="page-content">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">OVERVIEW</p>
+            <h1>Dashboard</h1>
+            <p class="page-description">
+              Here's what's happening with your team today.
+            </p>
+          </div>
+
+          <a href="employees.html" class="primary-button">
+            <span>＋</span> Add Employee
+          </a>
+        </div>
+
+        <!-- Summary cards -->
+        <section class="stats-grid" aria-label="Company statistics">
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Total Employees</span>
+              <span class="stat-icon icon-blue">♙</span>
+            </div>
+            <div class="stat-value" id="total-employees">0</div>
+            <p class="stat-description">Registered team members</p>
+            <a class="stat-link" href="employees.html">
+              View employees →
+            </a>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Present Today</span>
+              <span class="stat-icon icon-green">✓</span>
+            </div>
+            <div class="stat-value" id="present-today">0</div>
+            <p class="stat-description">Employees checked in today</p>
+            <span class="stat-note">Today's attendance</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Pending Leaves</span>
+              <span class="stat-icon icon-orange">◷</span>
+            </div>
+            <div class="stat-value" id="pending-leaves">0</div>
+            <p class="stat-description">Requests awaiting review</p>
+            <a class="stat-link" href="leaves.html">
+              Review requests →
+            </a>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Monthly Payroll</span>
+              <span class="stat-icon icon-purple">＄</span>
+            </div>
+            <div class="stat-value" id="monthly-payroll">Rs 0</div>
+            <p class="stat-description">Current monthly salary total</p>
+            <a class="stat-link" href="payroll.html">
+              View payroll →
+            </a>
+          </article>
+
+        </section>
+
+        <!-- Main dashboard columns -->
+        <div class="dashboard-grid">
+
+          <!-- Attendance overview -->
+          <section class="panel attendance-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Attendance Overview</h2>
+                <p>Today's team attendance</p>
+              </div>
+
+              <span class="live-badge">
+                <span class="status-dot"></span>
+                Today
+              </span>
+            </div>
+
+            <div class="attendance-summary">
+              <div class="attendance-circle" id="attendance-circle">
+                <div class="circle-inner">
+                  <strong id="attendance-percent">0%</strong>
+                  <span>Present</span>
+                </div>
+              </div>
+
+              <div class="attendance-legend">
+                <div class="legend-item">
+                  <span class="legend-dot dot-present"></span>
+                  <span>Present</span>
+                  <strong id="legend-present">0</strong>
+                </div>
+
+                <div class="legend-item">
+                  <span class="legend-dot dot-late"></span>
+                  <span>Late</span>
+                  <strong id="legend-late">0</strong>
+                </div>
+
+                <div class="legend-item">
+                  <span class="legend-dot dot-absent"></span>
+                  <span>Not checked in</span>
+                  <strong id="legend-absent">0</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-footer">
+              <span>Attendance is based on today's records.</span>
+            </div>
+          </section>
+
+          <!-- Quick actions -->
+          <section class="panel quick-actions-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Quick Actions</h2>
+                <p>Common admin tasks</p>
+              </div>
+            </div>
+
+            <div class="quick-actions">
+              <a href="employees.html" class="action-item">
+                <span class="action-icon action-blue">＋</span>
+                <span class="action-copy">
+                  <strong>Add an employee</strong>
+                  <small>Create a new employee record</small>
+                </span>
+                <span class="action-arrow">→</span>
+              </a>
+
+              <a href="leaves.html" class="action-item">
+                <span class="action-icon action-orange">✓</span>
+                <span class="action-copy">
+                  <strong>Review leave requests</strong>
+                  <small>Approve or reject applications</small>
+                </span>
+                <span class="action-arrow">→</span>
+              </a>
+
+              <a href="payroll.html" class="action-item">
+                <span class="action-icon action-purple">＄</span>
+                <span class="action-copy">
+                  <strong>Manage payroll</strong>
+                  <small>Review salaries and payslips</small>
+                </span>
+                <span class="action-arrow">→</span>
+              </a>
+
+              <a href="settings.html" class="action-item">
+                <span class="action-icon action-green">⚙</span>
+                <span class="action-copy">
+                  <strong>Company settings</strong>
+                  <small>Configure work hours and leave quota</small>
+                </span>
+                <span class="action-arrow">→</span>
+              </a>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Employee table -->
+        <section class="panel employees-panel">
+          <div class="panel-heading employees-heading">
+            <div>
+              <h2>Team Members</h2>
+              <p>Recently added employee accounts</p>
+            </div>
+
+            <a href="employees.html" class="secondary-button">
+              View all employees
+            </a>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>EMPLOYEE</th>
+                  <th>DEPARTMENT</th>
+                  <th>ROLE</th>
+                  <th>MONTHLY SALARY</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+
+              <tbody id="employees-table-body">
+                <tr>
+                  <td colspan="5" class="empty-state">
+                    <div class="empty-icon">♙</div>
+                    <strong>No employees yet</strong>
+                    <p>Add employee accounts to see your team here.</p>
+                    <a href="employees.html">Add your first employee →</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+          <span>© 2026 HCM Lite</span>
+          <span>Human Capital Management</span>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Minimal dashboard initialization -->
+  <script>
+    (() => {
+      const readData = (key, fallback = null) => {
+        try {
+          const value = localStorage.getItem(key);
+          return value === null ? fallback : JSON.parse(value);
+        } catch {
+          return fallback;
+        }
+      };
+
+      const session = readData("hcm_session");
+      const users = readData("hcm_users", []);
+      const company = readData("hcm_company");
+
+      // Basic client-side navigation guard for this demo.
+      if (
+        !session ||
+        session.role !== "admin" ||
+        !Array.isArray(users) ||
+        !users.some(user =>
+          user.id === session.userId && user.role === "admin"
+        )
+      ) {
+        window.location.replace("index.html");
+        return;
+      }
+
+      const employees = users.filter(user => user.role === "employee");
+      const admin = users.find(user => user.id === session.userId);
+
+      document.querySelector("#sidebar-company").textContent =
+        company?.name || "Your Company";
+
+      document.querySelector("#admin-name").textContent =
+        admin?.username || "Administrator";
+
+      document.querySelector(".avatar").textContent =
+        (admin?.username || "A").charAt(0).toUpperCase();
+
+      document.querySelector("#total-employees").textContent =
+        employees.length;
+
+      document.querySelector("#today-date").textContent =
+        new Intl.DateTimeFormat("en-PK", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }).format(new Date());
+
+      // Render employee rows from saved user records.
+      const tableBody = document.querySelector("#employees-table-body");
+
+      if (employees.length > 0) {
+        tableBody.replaceChildren();
+
+        employees.slice(-5).reverse().forEach(employee => {
+          const row = document.createElement("tr");
+
+          const nameCell = document.createElement("td");
+          const nameWrapper = document.createElement("div");
+          nameWrapper.className = "employee-cell";
+
+          const avatar = document.createElement("span");
+          avatar.className = "employee-avatar";
+          avatar.textContent = (employee.username || "E")
+            .charAt(0).toUpperCase();
+
+          const name = document.createElement("span");
+          name.className = "employee-name";
+          name.textContent = employee.username || "Unnamed";
+
+          nameWrapper.append(avatar, name);
+          nameCell.append(nameWrapper);
+
+          const departmentCell = document.createElement("td");
+          departmentCell.textContent = employee.department || "Not assigned";
+
+          const roleCell = document.createElement("td");
+          roleCell.textContent = "Employee";
+
+          const salaryCell = document.createElement("td");
+          salaryCell.textContent = new Intl.NumberFormat("en-PK", {
+            style: "currency",
+            currency: "PKR",
+            maximumFractionDigits: 0
+          }).format(Number(employee.salary) || 0);
+
+          const statusCell = document.createElement("td");
+          const status = document.createElement("span");
+          status.className = "status-badge status-active";
+          status.textContent = "Registered";
+          statusCell.append(status);
+
+          row.append(
+            nameCell,
+            departmentCell,
+            roleCell,
+            salaryCell,
+            statusCell
+          );
+
+          tableBody.append(row);
+        });
+      }
+
+      // Attendance and leave statistics remain placeholders
+      // until those modules store their records.
+
+      // Logout
+      document.querySelector("#logout-btn").addEventListener("click", () => {
+        localStorage.removeItem("hcm_session");
+        window.location.replace("index.html");
+      });
+
+      // Mobile navigation
+      const sidebar = document.querySelector("#sidebar");
+      const overlay = document.querySelector("#sidebar-overlay");
+      const menuToggle = document.querySelector("#menu-toggle");
+
+      function closeSidebar() {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("overlay-visible");
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = sidebar.classList.toggle("sidebar-open");
+        overlay.classList.toggle("overlay-visible", isOpen);
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      overlay.addEventListener("click", closeSidebar);
+    })();
+  </script>
+</body>
+
+</html>

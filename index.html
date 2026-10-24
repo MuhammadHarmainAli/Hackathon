@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HCM Lite | Employee Management</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="auth-layout">
+
+    <!-- Left side: Branding -->
+    <section class="brand-panel">
+      <div class="brand">
+        <div class="brand-icon">H</div>
+        <span>HCM <strong>Lite</strong></span>
+      </div>
+
+      <div class="brand-content">
+        <p class="eyebrow">HUMAN CAPITAL MANAGEMENT</p>
+
+        <h1>People first.<br>Work smarter.</h1>
+
+        <p class="brand-description">
+          A simple workspace to manage your employees,
+          attendance, leaves, and payroll in one place.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            Employee management
+          </div>
+
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            Attendance tracking
+          </div>
+
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            Leave and payroll management
+          </div>
+        </div>
+      </div>
+
+      <p class="brand-footer">
+        Simple HR management for growing teams.
+      </p>
+    </section>
+
+    <!-- Right side: Authentication -->
+    <section class="form-panel">
+      <div class="form-container">
+
+        <!-- First-time setup -->
+        <section id="setup-section">
+          <div class="form-heading">
+            <span class="step-label">GETTING STARTED</span>
+
+            <h2>Set up your company</h2>
+
+            <p>
+              Create your company profile and administrator
+              account to get started.
+            </p>
+          </div>
+
+          <form id="setup-form">
+
+            <div class="form-group">
+              <label for="company-name">Company name</label>
+
+              <input type="text" id="company-name" name="companyName" placeholder="e.g. Acme Solutions"
+                autocomplete="organization" required>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-username">Admin username</label>
+
+              <input type="text" id="admin-username" name="adminUsername" placeholder="Choose a username"
+                autocomplete="username" required>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-password">Create password</label>
+
+              <input type="password" id="admin-password" name="adminPassword" placeholder="At least 8 characters"
+                autocomplete="new-password" minlength="8" required>
+
+              <small>Use at least 8 characters.</small>
+            </div>
+
+            <button type="submit" class="primary-button">
+              Create Admin Account
+              <span aria-hidden="true">→</span>
+            </button>
+
+            <p id="setup-message" class="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <!-- Normal login: initially hidden -->
+        <section id="login-section" hidden>
+          <div class="form-heading">
+            <span class="step-label">WELCOME BACK</span>
+
+            <h2>Sign in to HCM Lite</h2>
+
+            <p>
+              Enter your credentials to access your dashboard.
+            </p>
+          </div>
+
+          <form id="login-form">
+
+            <div class="form-group">
+              <label for="username">Username</label>
+
+              <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+
+              <input type="password" id="password" name="password" placeholder="Enter your password"
+                autocomplete="current-password" required>
+            </div>
+
+            <button type="submit" class="primary-button">
+              Sign In
+              <span aria-hidden="true">→</span>
+            </button>
+
+            <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <div class="security-note">
+          <span aria-hidden="true">▣</span>
+          <p>Your workspace, organized in one place.</p>
+        </div>
+
+      </div>
+
+      <footer class="page-footer">
+        HCM Lite · Beginner Track · 2026
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="script.js" defer></script>
+
+</body>
+
+</html>

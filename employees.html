@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees | HCM Lite</title>
+  <link rel="stylesheet" href="employees.css">
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">H</div>
+        <div>
+          <h2>HCM Lite</h2>
+          <p>HR Management</p>
+        </div>
+      </div>
+
+      <div class="sidebar-label">MAIN MENU</div>
+
+      <nav class="navigation">
+        <a href="admin.html" class="nav-link">
+          <span class="nav-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="employees.html" class="nav-link active">
+          <span class="nav-icon">♙</span>
+          <span>Employees</span>
+        </a>
+
+        <a href="leaves.html" class="nav-link">
+          <span class="nav-icon">▣</span>
+          <span>Leave Requests</span>
+        </a>
+
+        <a href="payroll.html" class="nav-link">
+          <span class="nav-icon">＄</span>
+          <span>Payroll</span>
+        </a>
+
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="admin-profile">
+          <div class="profile-avatar">A</div>
+          <div class="profile-info">
+            <strong id="sidebar-admin-name">Admin</strong>
+            <span>Administrator</span>
+          </div>
+        </div>
+
+        <button type="button" class="logout-button" id="logout-button">
+          <span>↪</span> Log Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation"
+          aria-expanded="false">☰</button>
+
+        <div class="breadcrumb">
+          <span>Workspace</span>
+          <span class="breadcrumb-separator">/</span>
+          <strong>Employees</strong>
+        </div>
+
+        <div class="topbar-right">
+          <span class="status-dot"></span>
+          <span class="topbar-status">Admin Panel</span>
+        </div>
+      </header>
+
+      <!-- Page heading -->
+      <section class="page-heading">
+        <div>
+          <p class="eyebrow">PEOPLE MANAGEMENT</p>
+          <h1>Employees</h1>
+          <p class="page-description">
+            Manage employee records, departments and salaries.
+          </p>
+        </div>
+
+        <button type="button" class="primary-button" id="add-employee-button">
+          <span class="button-plus">+</span>
+          Add Employee
+        </button>
+      </section>
+
+      <!-- Summary cards -->
+      <section class="stats-grid" aria-label="Employee summary">
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Total Employees</span>
+            <span class="stat-icon icon-teal">♙</span>
+          </div>
+          <h2 id="total-employees">0</h2>
+          <p class="stat-note">Registered employee accounts</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Departments</span>
+            <span class="stat-icon icon-purple">▦</span>
+          </div>
+          <h2 id="total-departments">0</h2>
+          <p class="stat-note">Departments represented</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Monthly Salaries</span>
+            <span class="stat-icon icon-orange">₨</span>
+          </div>
+          <h2 id="total-salaries">₨ 0</h2>
+          <p class="stat-note">Combined monthly base salary</p>
+        </article>
+      </section>
+
+      <!-- Employee form -->
+      <section class="panel employee-form-panel" id="employee-form-panel">
+        <div class="panel-heading">
+          <div>
+            <h2 id="employee-form-title">Add New Employee</h2>
+            <p>Create an employee account for your company.</p>
+          </div>
+          <button type="button" class="icon-button close-form-button" id="close-form-button"
+            aria-label="Close employee form">×</button>
+        </div>
+
+        <form id="employee-form" novalidate>
+          <input type="hidden" id="employee-id" name="employeeId">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="employee-name">Full Name <span>*</span></label>
+              <input type="text" id="employee-name" name="employeeName" placeholder="e.g. Ali Ahmed" autocomplete="name"
+                required>
+              <small class="field-hint">Enter the employee's full name.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="employee-username">Username <span>*</span></label>
+              <input type="text" id="employee-username" name="employeeUsername" placeholder="e.g. ali.ahmed"
+                autocomplete="username" required>
+              <small class="field-hint">Must be unique for login.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="employee-password">
+                Password <span id="password-required">*</span>
+              </label>
+              <input type="password" id="employee-password" name="employeePassword" placeholder="At least 8 characters"
+                autocomplete="new-password">
+              <small class="field-hint" id="password-hint">
+                Required for a new employee account.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label for="employee-department">Department <span>*</span></label>
+              <select id="employee-department" name="department" required>
+                <option value="">Select department</option>
+                <option value="Administration">Administration</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Finance">Finance</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Sales">Sales</option>
+                <option value="Operations">Operations</option>
+                <option value="Customer Support">Customer Support</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="employee-salary">Monthly Salary (PKR) <span>*</span></label>
+              <input type="number" id="employee-salary" name="salary" placeholder="e.g. 75000" min="0" step="1"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="employee-status">Account Status</label>
+              <select id="employee-status" name="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <p id="employee-form-message" class="form-message" role="status" aria-live="polite"></p>
+
+          <div class="form-actions">
+            <button type="button" class="secondary-button" id="cancel-form-button">
+              Cancel
+            </button>
+            <button type="submit" class="primary-button" id="save-employee-button">
+              Save Employee
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Employee list -->
+      <section class="panel employee-list-panel">
+        <div class="panel-heading list-heading">
+          <div>
+            <h2>All Employees</h2>
+            <p>Search, filter and manage employee accounts.</p>
+          </div>
+
+          <span class="count-badge" id="employee-count-badge">0 employees</span>
+        </div>
+
+        <!-- Search and filters -->
+        <div class="toolbar">
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input type="search" id="employee-search" placeholder="Search by name or username..."
+              aria-label="Search employees">
+          </div>
+
+          <div class="filter-group">
+            <label class="visually-hidden" for="department-filter">
+              Filter by department
+            </label>
+            <select id="department-filter">
+              <option value="all">All Departments</option>
+              <option value="Administration">Administration</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Finance">Finance</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Sales</option>
+              <option value="Operations">Operations</option>
+              <option value="Customer Support">Customer Support</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <label class="visually-hidden" for="status-filter">
+              Filter by account status
+            </label>
+            <select id="status-filter">
+              <option value="all">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+          <table class="employees-table">
+            <thead>
+              <tr>
+                <th scope="col">EMPLOYEE</th>
+                <th scope="col">USERNAME</th>
+                <th scope="col">DEPARTMENT</th>
+                <th scope="col">MONTHLY SALARY</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">ACTIONS</th>
+              </tr>
+            </thead>
+
+            <tbody id="employees-table-body">
+              <!-- JavaScript will render employee rows here. -->
+            </tbody>
+          </table>
+
+          <div class="empty-state" id="empty-state">
+            <div class="empty-state-icon">♙</div>
+            <h3 id="empty-state-title">No employees yet</h3>
+            <p id="empty-state-description">
+              Add your first employee to start building your team.
+            </p>
+            <button type="button" class="primary-button" id="empty-add-employee-button">
+              + Add Employee
+            </button>
+          </div>
+        </div>
+
+        <div class="table-footer">
+          <p id="table-result-message">Showing 0 employees</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>© 2026 HCM Lite · Human Capital Management</p>
+        <span>Employee Management</span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Delete confirmation dialog -->
+  <dialog class="confirm-dialog" id="delete-dialog">
+    <div class="dialog-content">
+      <div class="dialog-warning-icon">!</div>
+      <h2>Delete Employee?</h2>
+      <p id="delete-dialog-message">
+        This action will remove the employee account.
+      </p>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancel-delete-button">
+          Cancel
+        </button>
+        <button type="button" class="danger-button" id="confirm-delete-button">
+          Delete Employee
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+
+    "use strict";
+
+    /* =====================================
+       1. LocalStorage keys
+    ===================================== */
+
+    const STORAGE_KEYS = {
+      company: "hcm_company",
+      users: "hcm_users",
+      session: "hcm_session"
+    };
+
+    /* =====================================
+       2. Select HTML elements
+    ===================================== */
+
+    const sidebar = document.querySelector("#sidebar");
+    const menuToggle = document.querySelector("#menu-toggle");
+    const sidebarAdminName = document.querySelector("#sidebar-admin-name");
+    const logoutButton = document.querySelector("#logout-button");
+
+    const employeeFormPanel = document.querySelector("#employee-form-panel");
+    const employeeForm = document.querySelector("#employee-form");
+    const employeeFormTitle = document.querySelector("#employee-form-title");
+    const employeeFormMessage = document.querySelector("#employee-form-message");
+
+    const employeeIdInput = document.querySelector("#employee-id");
+    const employeeNameInput = document.querySelector("#employee-name");
+    const employeeUsernameInput = document.querySelector("#employee-username");
+    const employeePasswordInput = document.querySelector("#employee-password");
+    const employeeDepartmentInput = document.querySelector("#employee-department");
+    const employeeSalaryInput = document.querySelector("#employee-salary");
+    const employeeStatusInput = document.querySelector("#employee-status");
+
+    const passwordRequiredLabel = document.querySelector("#password-required");
+    const passwordHint = document.querySelector("#password-hint");
+
+    const addEmployeeButton = document.querySelector("#add-employee-button");
+    const emptyAddEmployeeButton = document.querySelector(
+      "#empty-add-employee-button"
+    );
+    const closeFormButton = document.querySelector("#close-form-button");
+    const cancelFormButton = document.querySelector("#cancel-form-button");
+
+    const employeeSearchInput = document.querySelector("#employee-search");
+    const departmentFilter = document.querySelector("#department-filter");
+    const statusFilter = document.querySelector("#status-filter");
+
+    const employeesTableBody = document.querySelector("#employees-table-body");
+    const emptyState = document.querySelector("#empty-state");
+    const emptyStateTitle = document.querySelector("#empty-state-title");
+    const emptyStateDescription = document.querySelector(
+      "#empty-state-description"
+    );
+
+    const totalEmployeesElement = document.querySelector("#total-employees");
+    const totalDepartmentsElement = document.querySelector("#total-departments");
+    const totalSalariesElement = document.querySelector("#total-salaries");
+    const employeeCountBadge = document.querySelector("#employee-count-badge");
+    const tableResultMessage = document.querySelector("#table-result-message");
+
+    const deleteDialog = document.querySelector("#delete-dialog");
+    const deleteDialogMessage = document.querySelector("#delete-dialog-message");
+    const cancelDeleteButton = document.querySelector("#cancel-delete-button");
+    const confirmDeleteButton = document.querySelector("#confirm-delete-button");
+
+    /* =====================================
+       3. Application state
+    ===================================== */
+
+    let users = [];
+    let employeeIdToDelete = null;
+
+    /* =====================================
+       4. LocalStorage helpers
+    ===================================== */
+
+    function readData(key, fallback = null) {
+      try {
+        const savedValue = localStorage.getItem(key);
+
+        if (savedValue === null) {
+          return fallback;
+        }
+
+        return JSON.parse(savedValue);
+      } catch (error) {
+        console.error(`Error reading ${key}:`, error);
+        return fallback;
+      }
+    }
+
+    function saveData(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        console.error(`Error saving ${key}:`, error);
+        return false;
+      }
+    }
+
+    function getSession() {
+      return readData(STORAGE_KEYS.session);
+    }
+
+    function getUsers() {
+      const savedUsers = readData(STORAGE_KEYS.users, []);
+      return Array.isArray(savedUsers) ? savedUsers : [];
+    }
+
+    function createId() {
+      if (globalThis.crypto?.randomUUID) {
+        return globalThis.crypto.randomUUID();
+      }
+
+      return `employee-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 10)}`;
+    }
+
+    /* =====================================
+       5. Admin access protection
+    ===================================== */
+
+    function checkAdminAccess() {
+      const session = getSession();
+
+      if (!session || session.role !== "admin" || !session.userId) {
+        window.location.replace("index.html");
+        return false;
+      }
+
+      users = getUsers();
+
+      const admin = users.find(
+        user => user.id === session.userId && user.role === "admin"
+      );
+
+      if (!admin) {
+        localStorage.removeItem(STORAGE_KEYS.session);
+        window.location.replace("index.html");
+        return false;
+      }
+
+      sidebarAdminName.textContent = admin.name || admin.username || "Admin";
+
+      return true;
+    }
+
+    /* =====================================
+       6. General helper functions
+    ===================================== */
+
+    function normalize(value) {
+      return String(value ?? "").trim().toLowerCase();
+    }
+
+    function formatCurrency(amount) {
+      return "₨ " + Number(amount || 0).toLocaleString("en-PK", {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function getEmployeeName(employee) {
+      return employee.name || employee.fullName || employee.username || "Unnamed";
+    }
+
+    function getEmployeeStatus(employee) {
+      return employee.status === "inactive" ? "inactive" : "active";
+    }
+
+    function showFormMessage(message, type = "") {
+      employeeFormMessage.textContent = message;
+      employeeFormMessage.className = "form-message";
+
+      if (type) {
+        employeeFormMessage.classList.add(type);
+      }
+    }
+
+    function scrollToForm() {
+      employeeFormPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      employeeNameInput.focus({ preventScroll: true });
+    }
+
+    /* =====================================
+       7. Add employee form
+    ===================================== */
+
+    function openAddEmployeeForm() {
+      employeeForm.reset();
+
+      employeeIdInput.value = "";
+      employeeStatusInput.value = "active";
+
+      employeeFormTitle.textContent = "Add New Employee";
+      document.querySelector("#save-employee-button").textContent =
+        "Save Employee";
+
+      employeePasswordInput.required = true;
+      passwordRequiredLabel.hidden = false;
+      passwordHint.textContent = "Required for a new employee account.";
+
+      showFormMessage("");
+      scrollToForm();
+    }
+
+    /* =====================================
+       8. Edit employee form
+    ===================================== */
+
+    function openEditEmployeeForm(employeeId) {
+      const employee = users.find(
+        user => user.id === employeeId && user.role === "employee"
+      );
+
+      if (!employee) {
+        return;
+      }
+
+      employeeForm.reset();
+
+      employeeIdInput.value = employee.id;
+      employeeNameInput.value = getEmployeeName(employee);
+      employeeUsernameInput.value = employee.username || "";
+      employeePasswordInput.value = "";
+      employeeDepartmentInput.value = employee.department || "";
+      employeeSalaryInput.value = Number(employee.salary || 0);
+      employeeStatusInput.value = getEmployeeStatus(employee);
+
+      employeeFormTitle.textContent = "Edit Employee";
+      document.querySelector("#save-employee-button").textContent =
+        "Update Employee";
+
+      employeePasswordInput.required = false;
+      passwordRequiredLabel.hidden = true;
+      passwordHint.textContent =
+        "Leave blank to keep the existing password.";
+
+      showFormMessage("");
+      scrollToForm();
+    }
+
+    /* =====================================
+       9. Save new or updated employee
+    ===================================== */
+
+    function handleEmployeeFormSubmit(event) {
+      event.preventDefault();
+      showFormMessage("");
+
+      const employeeId = employeeIdInput.value;
+      const name = employeeNameInput.value.trim();
+      const username = employeeUsernameInput.value.trim();
+      const password = employeePasswordInput.value;
+      const department = employeeDepartmentInput.value;
+      const salaryText = employeeSalaryInput.value;
+      const status = employeeStatusInput.value;
+
+      const salary = Number(salaryText);
+
+      // Validate required fields.
+      if (!name || !username || !department || salaryText === "") {
+        showFormMessage("Please fill in all required fields.", "error");
+        return;
+      }
+
+      if (name.length < 2) {
+        showFormMessage("Name must contain at least 2 characters.", "error");
+        return;
+      }
+
+      if (username.length < 3) {
+        showFormMessage("Username must contain at least 3 characters.", "error");
+        return;
+      }
+
+      if (/\s/.test(username)) {
+        showFormMessage("Username cannot contain spaces.", "error");
+        return;
+      }
+
+      if (!Number.isFinite(salary) || salary < 0) {
+        showFormMessage("Please enter a valid, non-negative salary.", "error");
+        return;
+      }
+
+      // A username must be unique, ignoring letter case.
+      const duplicateUsername = users.find(user => {
+        return (
+          normalize(user.username) === normalize(username) &&
+          user.id !== employeeId
+        );
+      });
+
+      if (duplicateUsername) {
+        showFormMessage(
+          "This username is already in use. Please choose another.",
+          "error"
+        );
+        return;
+      }
+
+      // Validate password for new accounts or when changing it.
+      if (!employeeId && password.length < 8) {
+        showFormMessage(
+          "New employee passwords must contain at least 8 characters.",
+          "error"
+        );
+        return;
+      }
+
+      if (employeeId && password && password.length < 8) {
+        showFormMessage(
+          "A new password must contain at least 8 characters.",
+          "error"
+        );
+        return;
+      }
+
+      if (!["active", "inactive"].includes(status)) {
+        showFormMessage("Please select a valid account status.", "error");
+        return;
+      }
+
+      if (employeeId) {
+        updateEmployee({
+          employeeId,
+          name,
+          username,
+          password,
+          department,
+          salary,
+          status
+        });
+      } else {
+        addEmployee({
+          name,
+          username,
+          password,
+          department,
+          salary,
+          status
+        });
+      }
+    }
+
+    function addEmployee(employeeData) {
+      const newEmployee = {
+        id: createId(),
+        name: employeeData.name,
+        username: employeeData.username,
+        password: employeeData.password,
+        role: "employee",
+        department: employeeData.department,
+        salary: employeeData.salary,
+        status: employeeData.status,
+        createdAt: new Date().toISOString()
+      };
+
+      const updatedUsers = [...users, newEmployee];
+
+      if (!saveData(STORAGE_KEYS.users, updatedUsers)) {
+        showFormMessage(
+          "Could not save employee. Check your browser storage.",
+          "error"
+        );
+        return;
+      }
+
+      users = updatedUsers;
+
+      employeeForm.reset();
+      employeeFormTitle.textContent = "Add New Employee";
+      employeePasswordInput.required = true;
+      passwordRequiredLabel.hidden = false;
+      passwordHint.textContent = "Required for a new employee account.";
+
+      showFormMessage("Employee added successfully!", "success");
+
+      renderEmployees();
+
+      // Keep the form visible briefly so the success message can be read.
+      employeeForm.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function updateEmployee(employeeData) {
+      const employeeIndex = users.findIndex(
+        user => user.id === employeeData.employeeId &&
+          user.role === "employee"
+      );
+
+      if (employeeIndex === -1) {
+        showFormMessage("Employee record was not found.", "error");
+        return;
+      }
+
+      const existingEmployee = users[employeeIndex];
+
+      const updatedEmployee = {
+        ...existingEmployee,
+        name: employeeData.name,
+        username: employeeData.username,
+        department: employeeData.department,
+        salary: employeeData.salary,
+        status: employeeData.status,
+        updatedAt: new Date().toISOString()
+      };
+
+      // Only replace the password if the admin entered a new one.
+      if (employeeData.password) {
+        updatedEmployee.password = employeeData.password;
+      }
+
+      const updatedUsers = [...users];
+      updatedUsers[employeeIndex] = updatedEmployee;
+
+      if (!saveData(STORAGE_KEYS.users, updatedUsers)) {
+        showFormMessage(
+          "Could not update employee. Check your browser storage.",
+          "error"
+        );
+        return;
+      }
+
+      users = updatedUsers;
+
+      employeeForm.reset();
+      employeeIdInput.value = "";
+      employeeFormTitle.textContent = "Add New Employee";
+      employeePasswordInput.required = true;
+      passwordRequiredLabel.hidden = false;
+      passwordHint.textContent = "Required for a new employee account.";
+
+      showFormMessage("Employee updated successfully!", "success");
+
+      renderEmployees();
+    }
+
+    /* =====================================
+       10. Render employee table safely
+    ===================================== */
+
+    function createTableCell(text, className = "") {
+      const cell = document.createElement("td");
+      cell.textContent = text;
+
+      if (className) {
+        cell.className = className;
+      }
+
+      return cell;
+    }
+
+    function createActionButton(label, symbol, className, onClick) {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className = `action-button ${className}`.trim();
+      button.textContent = symbol;
+      button.setAttribute("aria-label", label);
+      button.title = label;
+      button.addEventListener("click", onClick);
+
+      return button;
+    }
+
+    function createEmployeeRow(employee) {
+      const row = document.createElement("tr");
+
+      // Employee name and avatar.
+      const employeeCell = document.createElement("td");
+      const employeeInfo = document.createElement("div");
+      employeeInfo.className = "employee-cell";
+
+      const avatar = document.createElement("div");
+      avatar.className = "employee-avatar";
+
+      const employeeName = getEmployeeName(employee);
+      avatar.textContent = employeeName.slice(0, 2);
+
+      const details = document.createElement("div");
+      details.className = "employee-details";
+
+      const nameElement = document.createElement("strong");
+      nameElement.textContent = employeeName;
+
+      const idElement = document.createElement("span");
+      idElement.textContent = `ID: ${employee.id}`;
+
+      details.append(nameElement, idElement);
+      employeeInfo.append(avatar, details);
+      employeeCell.append(employeeInfo);
+
+      // Other employee details.
+      const usernameCell = createTableCell(employee.username || "—");
+      const departmentCell = document.createElement("td");
+
+      const departmentBadge = document.createElement("span");
+      departmentBadge.className = "department-badge";
+      departmentBadge.textContent = employee.department || "Unassigned";
+      departmentCell.append(departmentBadge);
+
+      const salaryCell = createTableCell(
+        formatCurrency(employee.salary),
+        "salary-cell"
+      );
+
+      const statusCell = document.createElement("td");
+      const status = getEmployeeStatus(employee);
+      const statusBadge = document.createElement("span");
+
+      statusBadge.className = `status-badge status-${status}`;
+      statusBadge.textContent =
+        status.charAt(0).toUpperCase() + status.slice(1);
+
+      statusCell.append(statusBadge);
+
+      // Edit and delete buttons.
+      const actionsCell = document.createElement("td");
+      const actions = document.createElement("div");
+      actions.className = "row-actions";
+
+      const editButton = createActionButton(
+        "Edit employee",
+        "✎",
+        "",
+        () => openEditEmployeeForm(employee.id)
+      );
+
+      const deleteButton = createActionButton(
+        "Delete employee",
+        "⌫",
+        "delete",
+        () => openDeleteDialog(employee.id)
+      );
+
+      actions.append(editButton, deleteButton);
+      actionsCell.append(actions);
+
+      row.append(
+        employeeCell,
+        usernameCell,
+        departmentCell,
+        salaryCell,
+        statusCell,
+        actionsCell
+      );
+
+      return row;
+    }
+
+    /* =====================================
+       11. Search and filtering
+    ===================================== */
+
+    function getFilteredEmployees() {
+      const searchTerm = normalize(employeeSearchInput.value);
+      const selectedDepartment = departmentFilter.value;
+      const selectedStatus = statusFilter.value;
+
+      return users
+        .filter(user => user.role === "employee")
+        .filter(employee => {
+          const searchableText = [
+            getEmployeeName(employee),
+            employee.username,
+            employee.department
+          ].map(normalize).join(" ");
+
+          const matchesSearch = searchableText.includes(searchTerm);
+
+          const matchesDepartment =
+            selectedDepartment === "all" ||
+            employee.department === selectedDepartment;
+
+          const matchesStatus =
+            selectedStatus === "all" ||
+            getEmployeeStatus(employee) === selectedStatus;
+
+          return matchesSearch && matchesDepartment && matchesStatus;
+        })
+        .sort((a, b) =>
+          getEmployeeName(a).localeCompare(getEmployeeName(b))
+        );
+    }
+
+    /* =====================================
+       12. Update summary cards
+    ===================================== */
+
+    function renderSummaryCards() {
+      const employees = users.filter(user => user.role === "employee");
+
+      const departments = new Set(
+        employees
+          .map(employee => employee.department)
+          .filter(department => typeof department === "string" &&
+            department.trim() !== "")
+      );
+
+      const totalSalaries = employees.reduce((total, employee) => {
+        const salary = Number(employee.salary);
+        return total + (Number.isFinite(salary) && salary > 0 ? salary : 0);
+      }, 0);
+
+      totalEmployeesElement.textContent = employees.length;
+      totalDepartmentsElement.textContent = departments.size;
+      totalSalariesElement.textContent = formatCurrency(totalSalaries);
+      employeeCountBadge.textContent =
+        `${employees.length} ${employees.length === 1 ? "employee" : "employees"}`;
+    }
+
+    /* =====================================
+       13. Render the page
+    ===================================== */
+
+    function renderEmployees() {
+      const filteredEmployees = getFilteredEmployees();
+
+      employeesTableBody.replaceChildren();
+
+      filteredEmployees.forEach(employee => {
+        employeesTableBody.appendChild(createEmployeeRow(employee));
+      });
+
+      const hasEmployees = filteredEmployees.length > 0;
+      emptyState.hidden = hasEmployees;
+
+      if (!hasEmployees) {
+        const anyEmployeesExist = users.some(
+          user => user.role === "employee"
+        );
+
+        const hasFilters =
+          employeeSearchInput.value.trim() !== "" ||
+          departmentFilter.value !== "all" ||
+          statusFilter.value !== "all";
+
+        if (hasFilters && anyEmployeesExist) {
+          emptyStateTitle.textContent = "No matching employees";
+          emptyStateDescription.textContent =
+            "Try changing your search or filter selections.";
+          emptyAddEmployeeButton.hidden = true;
+        } else {
+          emptyStateTitle.textContent = "No employees yet";
+          emptyStateDescription.textContent =
+            "Add your first employee to start building your team.";
+          emptyAddEmployeeButton.hidden = false;
+        }
+      }
+
+      tableResultMessage.textContent =
+        `Showing ${filteredEmployees.length} of ${users.filter(user => user.role === "employee").length
+        } employees`;
+
+      renderSummaryCards();
+    }
+
+    /* =====================================
+       14. Delete employee
+    ===================================== */
+
+    function openDeleteDialog(employeeId) {
+      const employee = users.find(
+        user => user.id === employeeId && user.role === "employee"
+      );
+
+      if (!employee) {
+        return;
+      }
+
+      employeeIdToDelete = employeeId;
+
+      deleteDialogMessage.textContent =
+        `Are you sure you want to delete ${getEmployeeName(employee)}? ` +
+        "This will remove their employee account.";
+
+      if (typeof deleteDialog.showModal === "function") {
+        deleteDialog.showModal();
+      } else {
+        // Fallback for browsers without dialog support.
+        if (window.confirm(deleteDialogMessage.textContent)) {
+          deleteEmployee();
+        }
+      }
+    }
+
+    function deleteEmployee() {
+      if (!employeeIdToDelete) {
+        return;
+      }
+
+      const updatedUsers = users.filter(
+        user => user.id !== employeeIdToDelete ||
+          user.role !== "employee"
+      );
+
+      if (!saveData(STORAGE_KEYS.users, updatedUsers)) {
+        window.alert("Could not delete employee. Check your browser storage.");
+        return;
+      }
+
+      users = updatedUsers;
+      employeeIdToDelete = null;
+
+      if (deleteDialog.open) {
+        deleteDialog.close();
+      }
+
+      if (employeeIdInput.value) {
+        employeeForm.reset();
+        employeeIdInput.value = "";
+        employeeFormTitle.textContent = "Add New Employee";
+        employeePasswordInput.required = true;
+        passwordRequiredLabel.hidden = false;
+        passwordHint.textContent = "Required for a new employee account.";
+        showFormMessage("");
+      }
+
+      renderEmployees();
+    }
+
+    /* =====================================
+       15. Reset and close form
+    ===================================== */
+
+    function closeEmployeeForm() {
+      employeeForm.reset();
+      employeeIdInput.value = "";
+
+      employeeFormTitle.textContent = "Add New Employee";
+      document.querySelector("#save-employee-button").textContent =
+        "Save Employee";
+
+      employeePasswordInput.required = true;
+      passwordRequiredLabel.hidden = false;
+      passwordHint.textContent = "Required for a new employee account.";
+
+      showFormMessage("");
+    }
+
+    /* =====================================
+       16. Event listeners
+    ===================================== */
+
+    employeeForm.addEventListener("submit", handleEmployeeFormSubmit);
+
+    addEmployeeButton.addEventListener("click", openAddEmployeeForm);
+    emptyAddEmployeeButton.addEventListener("click", openAddEmployeeForm);
+
+    closeFormButton.addEventListener("click", closeEmployeeForm);
+    cancelFormButton.addEventListener("click", closeEmployeeForm);
+
+    employeeSearchInput.addEventListener("input", renderEmployees);
+    departmentFilter.addEventListener("change", renderEmployees);
+    statusFilter.addEventListener("change", renderEmployees);
+
+    cancelDeleteButton.addEventListener("click", () => {
+      employeeIdToDelete = null;
+      deleteDialog.close();
+    });
+
+    confirmDeleteButton.addEventListener("click", deleteEmployee);
+
+    deleteDialog.addEventListener("close", () => {
+      employeeIdToDelete = null;
+    });
+
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_KEYS.session);
+      window.location.replace("index.html");
+    });
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = sidebar.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.addEventListener("click", event => {
+      if (
+        window.innerWidth <= 760 &&
+        sidebar.classList.contains("open") &&
+        !sidebar.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
+        sidebar.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    /* =====================================
+       17. Initialize the page
+    ===================================== */
+
+    function initializeEmployeesPage() {
+      if (!checkAdminAccess()) {
+        return;
+      }
+
+      renderEmployees();
+    }
+
+    initializeEmployeesPage();
+
+  </script>
+</body>
+
+</html>

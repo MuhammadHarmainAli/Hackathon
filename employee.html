@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard | HCM Lite</title>
+  <link rel="stylesheet" href="employee.css">
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">H</div>
+        <div class="brand-text">
+          <h2>HCM Lite</h2>
+          <span>Human Capital Management</span>
+        </div>
+      </div>
+
+      <div class="sidebar-profile">
+        <div class="profile-avatar" id="sidebar-avatar">E</div>
+        <div class="profile-info">
+          <strong id="sidebar-employee-name">Employee</strong>
+          <span>Employee Account</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <p class="nav-heading">MY WORKSPACE</p>
+
+        <a href="employee.html" class="nav-link active">
+          <span class="nav-icon">▦</span>
+          <span>My Dashboard</span>
+        </a>
+
+        <a href="#my-leaves" class="nav-link">
+          <span class="nav-icon">▣</span>
+          <span>My Leaves</span>
+        </a>
+
+        <a href="#apply-leave" class="nav-link">
+          <span class="nav-icon">＋</span>
+          <span>Apply for Leave</span>
+        </a>
+
+        <a href="payroll.html" class="nav-link">
+          <span class="nav-icon">＄</span>
+          <span>My Payroll</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-help">
+          <div class="help-icon">?</div>
+          <div>
+            <strong>Need help?</strong>
+            <span>Contact your administrator</span>
+          </div>
+        </div>
+
+        <button type="button" class="logout-button" id="logout-button">
+          <span class="nav-icon">⇥</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation"
+            aria-expanded="false">
+            ☰
+          </button>
+
+          <div>
+            <p class="breadcrumb">Workspace / My Dashboard</p>
+            <h1>My Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-date" id="current-date"></div>
+          <div class="topbar-avatar" id="topbar-avatar">E</div>
+        </div>
+      </header>
+
+      <!-- Welcome banner -->
+      <section class="welcome-banner">
+        <div class="welcome-content">
+          <span class="welcome-eyebrow">EMPLOYEE WORKSPACE</span>
+          <h2>Welcome back, <span id="welcome-name">Employee</span>!</h2>
+          <p>
+            Here is your personal workspace. Review your profile,
+            track your leave requests, and manage your time off.
+          </p>
+        </div>
+
+        <div class="welcome-illustration" aria-hidden="true">
+          <div class="illustration-circle">✓</div>
+          <div class="illustration-card">
+            <span>MY WORKSPACE</span>
+            <strong>Stay organized</strong>
+            <small>Your work, in one place.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Employee profile -->
+      <section class="profile-card">
+        <div class="profile-main">
+          <div class="large-avatar" id="profile-avatar">E</div>
+
+          <div class="profile-details">
+            <div class="profile-name-row">
+              <h2 id="employee-full-name">Employee Name</h2>
+              <span class="account-status" id="account-status">
+                Active
+              </span>
+            </div>
+
+            <p id="employee-username">@username</p>
+
+            <div class="profile-meta">
+              <span>
+                <span class="meta-icon">▤</span>
+                <span id="employee-department">Department</span>
+              </span>
+
+              <span>
+                <span class="meta-icon">♙</span>
+                Employee
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-id">
+          <span>EMPLOYEE ID</span>
+          <strong id="employee-id-display">—</strong>
+        </div>
+      </section>
+
+      <!-- Summary cards -->
+      <section class="stats-grid" aria-label="Employee summary">
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Monthly Salary</span>
+            <span class="stat-icon icon-blue">Rs</span>
+          </div>
+
+          <div class="stat-value" id="monthly-salary">Rs 0</div>
+          <p class="stat-description">Your base monthly salary</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Annual Leave Quota</span>
+            <span class="stat-icon icon-purple">▣</span>
+          </div>
+
+          <div class="stat-value">
+            <span id="leave-quota">12</span>
+            <small>days</small>
+          </div>
+          <p class="stat-description">Company annual leave allowance</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Approved Leave</span>
+            <span class="stat-icon icon-green">✓</span>
+          </div>
+
+          <div class="stat-value">
+            <span id="approved-leave-days">0</span>
+            <small>days</small>
+          </div>
+          <p class="stat-description">Approved annual leave days</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Pending Requests</span>
+            <span class="stat-icon icon-orange">◷</span>
+          </div>
+
+          <div class="stat-value" id="pending-leave-requests">0</div>
+          <p class="stat-description">Requests awaiting review</p>
+        </article>
+
+      </section>
+
+      <!-- Leave balance -->
+      <section class="content-card balance-card">
+        <div class="section-header">
+          <div>
+            <h2>Annual Leave Balance</h2>
+            <p>Track your approved annual leave against your quota.</p>
+          </div>
+
+          <span class="balance-year" id="leave-balance-year">This year</span>
+        </div>
+
+        <div class="balance-overview">
+          <div class="balance-number">
+            <strong id="remaining-leave-days">12</strong>
+            <span>days remaining</span>
+          </div>
+
+          <div class="balance-used">
+            <span id="used-leave-label">0 of 12 days used</span>
+            <span id="leave-usage-percentage">0%</span>
+          </div>
+        </div>
+
+        <div class="progress-track" role="progressbar" aria-label="Annual leave used" aria-valuemin="0"
+          aria-valuemax="100" aria-valuenow="0" id="leave-progress">
+          <div class="progress-fill" id="leave-progress-fill"></div>
+        </div>
+
+        <p class="balance-note" id="leave-balance-note">
+          Your approved annual leave will appear here.
+        </p>
+      </section>
+
+      <!-- Leave request section -->
+      <section class="content-card" id="my-leaves">
+        <div class="section-header">
+          <div>
+            <h2>My Leave Requests</h2>
+            <p>View the status and details of your leave applications.</p>
+          </div>
+
+          <a href="#apply-leave" class="button-primary">
+            + Apply for Leave
+          </a>
+        </div>
+
+        <!-- Leave filters -->
+        <div class="table-toolbar">
+          <div class="search-box">
+            <span class="search-icon">⌕</span>
+            <input type="search" id="leave-search" placeholder="Search by reason or leave type..."
+              aria-label="Search my leave requests">
+          </div>
+
+          <div class="filter-group">
+            <select id="leave-status-filter" aria-label="Filter by leave status">
+              <option value="all">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Leave table -->
+        <div class="table-wrapper">
+          <table class="leave-table">
+            <thead>
+              <tr>
+                <th>LEAVE TYPE</th>
+                <th>DATES</th>
+                <th>DAYS</th>
+                <th>REASON</th>
+                <th>STATUS</th>
+                <th>SUBMITTED</th>
+              </tr>
+            </thead>
+
+            <tbody id="my-leaves-table-body">
+              <!-- Employee's leave requests will be rendered here -->
+            </tbody>
+          </table>
+
+          <div class="empty-state" id="leaves-empty-state">
+            <div class="empty-state-icon">▤</div>
+            <h3 id="leaves-empty-title">No leave requests yet</h3>
+            <p id="leaves-empty-description">
+              You have not submitted any leave requests.
+              Use the form below to apply for leave.
+            </p>
+            <a href="#apply-leave" class="button-primary empty-action">
+              Apply for Leave
+            </a>
+          </div>
+        </div>
+
+        <div class="table-footer">
+          <p id="leave-results-message">Showing 0 requests</p>
+          <span>My Leave History</span>
+        </div>
+      </section>
+
+      <!-- Apply for leave -->
+      <section class="content-card apply-card" id="apply-leave">
+        <div class="section-header">
+          <div>
+            <h2>Apply for Leave</h2>
+            <p>Submit a new leave request for administrator review.</p>
+          </div>
+
+          <span class="form-required-note">
+            <span class="required-star">*</span> Required fields
+          </span>
+        </div>
+
+        <form id="leave-application-form" novalidate>
+          <div class="form-grid">
+
+            <div class="form-field">
+              <label for="leave-type">
+                Leave Type <span class="required-star">*</span>
+              </label>
+
+              <select id="leave-type" name="leaveType" required>
+                <option value="">Select leave type</option>
+                <option value="Annual">Annual Leave</option>
+                <option value="Sick">Sick Leave</option>
+                <option value="Casual">Casual Leave</option>
+                <option value="Unpaid">Unpaid Leave</option>
+              </select>
+
+              <small>Choose the type of leave you need.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="leave-reason">
+                Reason <span class="required-star">*</span>
+              </label>
+
+              <input type="text" id="leave-reason" name="reason" placeholder="e.g. Personal work" maxlength="200"
+                required>
+
+              <small>Provide a short explanation for your request.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="leave-start-date">
+                Start Date <span class="required-star">*</span>
+              </label>
+
+              <input type="date" id="leave-start-date" name="startDate" required>
+
+              <small>First day of your requested leave.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="leave-end-date">
+                End Date <span class="required-star">*</span>
+              </label>
+
+              <input type="date" id="leave-end-date" name="endDate" required>
+
+              <small>Last day of your requested leave.</small>
+            </div>
+
+            <div class="form-field form-field-full">
+              <label for="leave-notes">Additional Notes</label>
+
+              <textarea id="leave-notes" name="notes" rows="4" maxlength="500"
+                placeholder="Anything else your administrator should know? (Optional)"></textarea>
+
+              <small>Maximum 500 characters. Avoid sharing unnecessary sensitive information.</small>
+            </div>
+
+          </div>
+
+          <div class="form-message" id="leave-form-message" role="status" aria-live="polite" hidden></div>
+
+          <div class="form-footer">
+            <p>
+              <span class="required-star">*</span>
+              Your request will remain pending until it is reviewed.
+            </p>
+
+            <div class="form-actions">
+              <button type="reset" class="button-secondary" id="reset-leave-form">
+                Clear Form
+              </button>
+
+              <button type="submit" class="button-primary" id="submit-leave-button">
+                Submit Request →
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <p>© HCM Lite · Employee Workspace</p>
+        <p>Questions? Contact your administrator.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <script>
+
+    "use strict";
+
+    /* =========================================
+       HCM LITE — EMPLOYEE DASHBOARD
+       Storage: localStorage
+       ========================================= */
+
+    const STORAGE_KEYS = {
+      company: "hcm_company",
+      users: "hcm_users",
+      session: "hcm_session",
+      leaves: "hcm_leaves"
+    };
+
+    /* =========================================
+       DOM ELEMENTS
+       ========================================= */
+
+    const elements = {
+      sidebar: document.querySelector("#sidebar"),
+      menuToggle: document.querySelector("#menu-toggle"),
+      sidebarOverlay: document.querySelector("#sidebar-overlay"),
+      logoutButton: document.querySelector("#logout-button"),
+
+      sidebarAvatar: document.querySelector("#sidebar-avatar"),
+      sidebarEmployeeName: document.querySelector("#sidebar-employee-name"),
+      topbarAvatar: document.querySelector("#topbar-avatar"),
+      currentDate: document.querySelector("#current-date"),
+
+      welcomeName: document.querySelector("#welcome-name"),
+      profileAvatar: document.querySelector("#profile-avatar"),
+      employeeFullName: document.querySelector("#employee-full-name"),
+      employeeUsername: document.querySelector("#employee-username"),
+      employeeDepartment: document.querySelector("#employee-department"),
+      employeeIdDisplay: document.querySelector("#employee-id-display"),
+      accountStatus: document.querySelector("#account-status"),
+
+      monthlySalary: document.querySelector("#monthly-salary"),
+      leaveQuota: document.querySelector("#leave-quota"),
+      approvedLeaveDays: document.querySelector("#approved-leave-days"),
+      pendingLeaveRequests: document.querySelector("#pending-leave-requests"),
+
+      remainingLeaveDays: document.querySelector("#remaining-leave-days"),
+      usedLeaveLabel: document.querySelector("#used-leave-label"),
+      leaveUsagePercentage: document.querySelector("#leave-usage-percentage"),
+      leaveProgress: document.querySelector("#leave-progress"),
+      leaveProgressFill: document.querySelector("#leave-progress-fill"),
+      leaveBalanceNote: document.querySelector("#leave-balance-note"),
+      leaveBalanceYear: document.querySelector("#leave-balance-year"),
+
+      leaveSearch: document.querySelector("#leave-search"),
+      leaveStatusFilter: document.querySelector("#leave-status-filter"),
+      myLeavesTableBody: document.querySelector("#my-leaves-table-body"),
+      leavesEmptyState: document.querySelector("#leaves-empty-state"),
+      leavesEmptyTitle: document.querySelector("#leaves-empty-title"),
+      leavesEmptyDescription: document.querySelector(
+        "#leaves-empty-description"
+      ),
+      leaveResultsMessage: document.querySelector("#leave-results-message"),
+
+      leaveApplicationForm: document.querySelector("#leave-application-form"),
+      leaveType: document.querySelector("#leave-type"),
+      leaveReason: document.querySelector("#leave-reason"),
+      leaveStartDate: document.querySelector("#leave-start-date"),
+      leaveEndDate: document.querySelector("#leave-end-date"),
+      leaveNotes: document.querySelector("#leave-notes"),
+      leaveFormMessage: document.querySelector("#leave-form-message"),
+      submitLeaveButton: document.querySelector("#submit-leave-button"),
+      resetLeaveForm: document.querySelector("#reset-leave-form")
+    };
+
+    /* =========================================
+       STATE
+       ========================================= */
+
+    let currentUser = null;
+    let currentCompany = {};
+    let leaveRequests = [];
+
+    /* =========================================
+       STORAGE HELPERS
+       ========================================= */
+
+    function readStorage(key, fallback) {
+      try {
+        const value = localStorage.getItem(key);
+
+        if (value === null) {
+          return fallback;
+        }
+
+        return JSON.parse(value);
+      } catch (error) {
+        console.error(`Could not read storage key "${key}".`, error);
+        return fallback;
+      }
+    }
+
+    function writeStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        console.error(`Could not save storage key "${key}".`, error);
+        return false;
+      }
+    }
+
+    function createId() {
+      if (globalThis.crypto?.randomUUID) {
+        return globalThis.crypto.randomUUID();
+      }
+
+      return `leave-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    /* =========================================
+       SESSION AND ACCESS
+       ========================================= */
+
+    function initializeDashboard() {
+      const session = readStorage(STORAGE_KEYS.session, null);
+      const users = readStorage(STORAGE_KEYS.users, []);
+
+      if (!session || !Array.isArray(users)) {
+        redirectToLogin();
+        return;
+      }
+
+      if (session.role !== "employee") {
+        redirectToLogin();
+        return;
+      }
+
+      currentUser = users.find((user) => user.id === session.userId);
+
+      if (!currentUser || currentUser.role !== "employee") {
+        redirectToLogin();
+        return;
+      }
+
+      // Inactive accounts must not use the employee dashboard.
+      if (String(currentUser.status || "active").toLowerCase() === "inactive") {
+        localStorage.removeItem(STORAGE_KEYS.session);
+        redirectToLogin();
+        return;
+      }
+
+      currentCompany = readStorage(STORAGE_KEYS.company, {}) || {};
+
+      const storedLeaves = readStorage(STORAGE_KEYS.leaves, []);
+
+      if (!Array.isArray(storedLeaves)) {
+        leaveRequests = [];
+      } else {
+        leaveRequests = storedLeaves;
+      }
+
+      // Default a missing status to active for older user records.
+      renderEmployeeProfile();
+      renderLeaveSummary();
+      renderLeaveRequests();
+      setUpDateInputs();
+      updateCurrentDate();
+      attachEventListeners();
+    }
+
+    function redirectToLogin() {
+      window.location.replace("index.html");
+    }
+
+    /* =========================================
+       FORMATTING HELPERS
+       ========================================= */
+
+    function formatCurrency(amount) {
+      const safeAmount = Number(amount);
+
+      if (!Number.isFinite(safeAmount)) {
+        return "Rs 0";
+      }
+
+      return `Rs ${safeAmount.toLocaleString("en-PK", {
+        maximumFractionDigits: 2
+      })}`;
+    }
+
+    function getInitial(name) {
+      const cleanName = String(name || "").trim();
+
+      return cleanName ? cleanName.charAt(0).toUpperCase() : "E";
+    }
+
+    function getEmployeeName(user) {
+      return String(user.name || user.username || "Employee").trim();
+    }
+
+    function getDepartment(user) {
+      return String(user.department || "Not assigned").trim();
+    }
+
+    function getLocalDateString(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function parseDateOnly(dateString) {
+      if (typeof dateString !== "string") {
+        return null;
+      }
+
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateString);
+
+      if (!match) {
+        return null;
+      }
+
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+      const date = new Date(year, month - 1, day);
+
+      if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+      ) {
+        return null;
+      }
+
+      return date;
+    }
+
+    function formatDate(dateString) {
+      const date = parseDateOnly(dateString);
+
+      if (!date) {
+        return "—";
+      }
+
+      return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function formatTimestamp(timestamp) {
+      if (!timestamp) {
+        return "—";
+      }
+
+      const date = new Date(timestamp);
+
+      if (Number.isNaN(date.getTime())) {
+        return "—";
+      }
+
+      return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function normalizeStatus(status) {
+      const value = String(status || "pending").toLowerCase();
+
+      if (value === "approved") return "approved";
+      if (value === "rejected") return "rejected";
+
+      return "pending";
+    }
+
+    function normalizeLeaveType(type) {
+      const labels = {
+        annual: "Annual Leave",
+        sick: "Sick Leave",
+        casual: "Casual Leave",
+        unpaid: "Unpaid Leave"
+      };
+
+      return labels[String(type || "").toLowerCase()] || String(type || "Leave");
+    }
+
+    /* =========================================
+       EMPLOYEE PROFILE
+       ========================================= */
+
+    function renderEmployeeProfile() {
+      const name = getEmployeeName(currentUser);
+      const initial = getInitial(name);
+      const username = currentUser.username || "employee";
+      const department = getDepartment(currentUser);
+      const status = String(currentUser.status || "active").toLowerCase();
+
+      elements.sidebarEmployeeName.textContent = username;
+      elements.welcomeName.textContent = name;
+      elements.employeeFullName.textContent = name;
+      elements.employeeUsername.textContent = `@${username}`;
+      elements.employeeDepartment.textContent = department;
+
+      elements.sidebarAvatar.textContent = initial;
+      elements.topbarAvatar.textContent = initial;
+      elements.profileAvatar.textContent = initial;
+
+      elements.employeeIdDisplay.textContent = currentUser.id || "—";
+
+      elements.monthlySalary.textContent = formatCurrency(currentUser.salary);
+
+      elements.accountStatus.textContent =
+        status === "inactive" ? "Inactive" : "Active";
+
+      elements.accountStatus.classList.toggle(
+        "inactive",
+        status === "inactive"
+      );
+    }
+
+    function updateCurrentDate() {
+      if (!elements.currentDate) {
+        return;
+      }
+
+      elements.currentDate.textContent = new Date().toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }
+      );
+    }
+
+    /* =========================================
+       LEAVE POLICY AND CALCULATIONS
+       ========================================= */
+
+    function getAnnualLeaveQuota() {
+      const configuredQuota = Number(currentCompany.leaveQuota);
+
+      if (
+        currentCompany.leaveQuota !== undefined &&
+        Number.isFinite(configuredQuota) &&
+        configuredQuota >= 0
+      ) {
+        return configuredQuota;
+      }
+
+      return 12;
+    }
+
+    function getCurrentYear() {
+      return new Date().getFullYear();
+    }
+
+    function getRequestsForCurrentEmployee() {
+      return leaveRequests.filter((request) => {
+        // employeeId is the canonical link to the employee account.
+        // employeeName is only display information.
+        return request.employeeId === currentUser.id;
+      });
+    }
+
+    function isInCurrentYear(request) {
+      const startDate = parseDateOnly(request.startDate);
+
+      return startDate && startDate.getFullYear() === getCurrentYear();
+    }
+
+    function calculateCalendarDays(startDateString, endDateString) {
+      const startDate = parseDateOnly(startDateString);
+      const endDate = parseDateOnly(endDateString);
+
+      if (!startDate || !endDate || endDate < startDate) {
+        return 0;
+      }
+
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+      return Math.round(
+        (endDate.getTime() - startDate.getTime()) / millisecondsPerDay
+      ) + 1;
+    }
+
+    function getApprovedAnnualLeaveDays(requests) {
+      return requests.reduce((total, request) => {
+        const status = normalizeStatus(request.status);
+        const type = String(request.type || "").toLowerCase();
+
+        if (
+          status !== "approved" ||
+          type !== "annual" ||
+          !isInCurrentYear(request)
+        ) {
+          return total;
+        }
+
+        const days = Number(request.days);
+
+        return total + (
+          Number.isFinite(days) && days > 0
+            ? days
+            : calculateCalendarDays(request.startDate, request.endDate)
+        );
+      }, 0);
+    }
+
+    /* =========================================
+       LEAVE SUMMARY
+       ========================================= */
+
+    function renderLeaveSummary() {
+      const requests = getRequestsForCurrentEmployee();
+      const annualQuota = getAnnualLeaveQuota();
+
+      const approvedAnnualDays = getApprovedAnnualLeaveDays(requests);
+
+      const pendingCount = requests.filter((request) => {
+        return normalizeStatus(request.status) === "pending";
+      }).length;
+
+      // Do not display a negative remaining balance.
+      const remainingDays = Math.max(0, annualQuota - approvedAnnualDays);
+
+      const percentage = annualQuota > 0
+        ? Math.min(100, Math.round((approvedAnnualDays / annualQuota) * 100))
+        : 0;
+
+      elements.leaveQuota.textContent = String(annualQuota);
+      elements.approvedLeaveDays.textContent = String(approvedAnnualDays);
+      elements.pendingLeaveRequests.textContent = String(pendingCount);
+
+      elements.remainingLeaveDays.textContent = String(remainingDays);
+      elements.usedLeaveLabel.textContent =
+        `${approvedAnnualDays} of ${annualQuota} days used`;
+
+      elements.leaveUsagePercentage.textContent = `${percentage}%`;
+
+      elements.leaveProgressFill.style.width = `${percentage}%`;
+      elements.leaveProgress.setAttribute("aria-valuenow", String(percentage));
+      elements.leaveBalanceYear.textContent = String(getCurrentYear());
+
+      if (annualQuota === 0) {
+        elements.leaveBalanceNote.textContent =
+          "Your configured annual leave quota is zero. Contact your administrator if this is unexpected.";
+      } else if (approvedAnnualDays >= annualQuota) {
+        elements.leaveBalanceNote.textContent =
+          "You have used your full annual leave quota for this year.";
+      } else {
+        elements.leaveBalanceNote.textContent =
+          `${remainingDays} annual leave day(s) remain based on approved requests. Pending requests are not deducted.`;
+      }
+    }
+
+    /* =========================================
+       LEAVE REQUEST TABLE
+       ========================================= */
+
+    function renderLeaveRequests() {
+      const searchTerm = elements.leaveSearch.value.trim().toLowerCase();
+      const selectedStatus = elements.leaveStatusFilter.value;
+
+      const allRequests = getRequestsForCurrentEmployee();
+
+      const filteredRequests = allRequests
+        .filter((request) => {
+          const matchesStatus =
+            selectedStatus === "all" ||
+            normalizeStatus(request.status) === selectedStatus;
+
+          const searchableText = [
+            request.type,
+            request.reason,
+            request.notes,
+            request.status
+          ].join(" ").toLowerCase();
+
+          const matchesSearch = searchableText.includes(searchTerm);
+
+          return matchesStatus && matchesSearch;
+        })
+        .sort((a, b) => {
+          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        });
+
+      elements.myLeavesTableBody.replaceChildren();
+
+      filteredRequests.forEach((request) => {
+        const row = document.createElement("tr");
+
+        // Leave type
+        const typeCell = document.createElement("td");
+        const typeText = document.createElement("span");
+        typeText.className = "leave-type";
+        typeText.textContent = normalizeLeaveType(request.type);
+        typeCell.append(typeText);
+
+        // Dates
+        const datesCell = document.createElement("td");
+        datesCell.className = "leave-dates";
+
+        const dateRange = document.createElement("strong");
+        dateRange.textContent =
+          `${formatDate(request.startDate)} – ${formatDate(request.endDate)}`;
+
+        datesCell.append(dateRange);
+
+        // Number of days
+        const daysCell = document.createElement("td");
+        daysCell.className = "days-count";
+
+        const days = Number(request.days);
+        daysCell.textContent = String(
+          Number.isFinite(days) && days > 0
+            ? days
+            : calculateCalendarDays(request.startDate, request.endDate)
+        );
+
+        // Reason
+        const reasonCell = document.createElement("td");
+        reasonCell.className = "leave-reason";
+        reasonCell.textContent = request.reason || "—";
+        reasonCell.title = request.reason || "";
+
+        // Status
+        const statusCell = document.createElement("td");
+        const statusBadge = document.createElement("span");
+        const status = normalizeStatus(request.status);
+
+        statusBadge.className = `status-badge status-${status}`;
+        statusBadge.textContent =
+          status.charAt(0).toUpperCase() + status.slice(1);
+
+        statusCell.append(statusBadge);
+
+        // Submission date
+        const submittedCell = document.createElement("td");
+        submittedCell.textContent = formatTimestamp(request.createdAt);
+
+        row.append(
+          typeCell,
+          datesCell,
+          daysCell,
+          reasonCell,
+          statusCell,
+          submittedCell
+        );
+
+        elements.myLeavesTableBody.append(row);
+      });
+
+      const count = filteredRequests.length;
+      elements.leaveResultsMessage.textContent =
+        `Showing ${count} of ${allRequests.length} request(s)`;
+
+      if (count === 0) {
+        elements.leavesEmptyState.classList.add("visible");
+
+        if (allRequests.length === 0) {
+          elements.leavesEmptyTitle.textContent = "No leave requests yet";
+          elements.leavesEmptyDescription.textContent =
+            "You have not submitted any leave requests. Use the form below to apply for leave.";
+        } else {
+          elements.leavesEmptyTitle.textContent = "No matching requests";
+          elements.leavesEmptyDescription.textContent =
+            "Try changing the search term or status filter.";
+        }
+      } else {
+        elements.leavesEmptyState.classList.remove("visible");
+      }
+    }
+
+    /* =========================================
+       DATE INPUT SETUP
+       ========================================= */
+
+    function setUpDateInputs() {
+      const today = getLocalDateString();
+
+      elements.leaveStartDate.min = today;
+      elements.leaveEndDate.min = today;
+
+      elements.leaveStartDate.addEventListener("change", () => {
+        const startDate = elements.leaveStartDate.value;
+
+        elements.leaveEndDate.min = startDate || today;
+
+        if (
+          elements.leaveEndDate.value &&
+          elements.leaveEndDate.value < startDate
+        ) {
+          elements.leaveEndDate.value = startDate;
+        }
+      });
+    }
+
+    /* =========================================
+       FORM MESSAGES
+       ========================================= */
+
+    function showFormMessage(message, type) {
+      elements.leaveFormMessage.textContent = message;
+      elements.leaveFormMessage.className = `form-message ${type}`;
+      elements.leaveFormMessage.hidden = false;
+    }
+
+    function clearFormMessage() {
+      elements.leaveFormMessage.textContent = "";
+      elements.leaveFormMessage.className = "form-message";
+      elements.leaveFormMessage.hidden = true;
+    }
+
+    /* =========================================
+       LEAVE VALIDATION
+       ========================================= */
+
+    function validateLeaveForm() {
+      const type = elements.leaveType.value;
+      const reason = elements.leaveReason.value.trim();
+      const startDateString = elements.leaveStartDate.value;
+      const endDateString = elements.leaveEndDate.value;
+      const notes = elements.leaveNotes.value.trim();
+
+      if (!type) {
+        return { valid: false, message: "Please select a leave type." };
+      }
+
+      const allowedTypes = ["Annual", "Sick", "Casual", "Unpaid"];
+
+      if (!allowedTypes.includes(type)) {
+        return { valid: false, message: "Please select a valid leave type." };
+      }
+
+      if (reason.length < 3) {
+        return {
+          valid: false,
+          message: "Please enter a reason of at least 3 characters."
+        };
+      }
+
+      if (!startDateString || !endDateString) {
+        return {
+          valid: false,
+          message: "Please select both start and end dates."
+        };
+      }
+
+      const startDate = parseDateOnly(startDateString);
+      const endDate = parseDateOnly(endDateString);
+      const today = parseDateOnly(getLocalDateString());
+
+      if (!startDate || !endDate) {
+        return {
+          valid: false,
+          message: "Please enter valid leave dates."
+        };
+      }
+
+      if (startDate < today) {
+        return {
+          valid: false,
+          message: "Leave start date cannot be in the past."
+        };
+      }
+
+      if (endDate < startDate) {
+        return {
+          valid: false,
+          message: "End date cannot be before the start date."
+        };
+      }
+
+      if (notes.length > 500) {
+        return {
+          valid: false,
+          message: "Additional notes must be 500 characters or fewer."
+        };
+      }
+
+      const days = calculateCalendarDays(startDateString, endDateString);
+
+      if (days < 1) {
+        return {
+          valid: false,
+          message: "The selected date range is invalid."
+        };
+      }
+
+      return {
+        valid: true,
+        data: {
+          type,
+          reason,
+          notes,
+          startDate: startDateString,
+          endDate: endDateString,
+          days
+        }
+      };
+    }
+
+    /* =========================================
+       OVERLAPPING REQUEST CHECK
+       ========================================= */
+
+    function hasOverlappingRequest(startDateString, endDateString) {
+      const requests = getRequestsForCurrentEmployee();
+
+      const newStart = parseDateOnly(startDateString);
+      const newEnd = parseDateOnly(endDateString);
+
+      if (!newStart || !newEnd) {
+        return true;
+      }
+
+      return requests.some((request) => {
+        const status = normalizeStatus(request.status);
+
+        // Rejected requests do not block a new application.
+        if (status === "rejected") {
+          return false;
+        }
+
+        const existingStart = parseDateOnly(request.startDate);
+        const existingEnd = parseDateOnly(request.endDate);
+
+        if (!existingStart || !existingEnd) {
+          return false;
+        }
+
+        // Ranges overlap if the new start is before the existing end
+        // and the new end is after the existing start.
+        return newStart <= existingEnd && newEnd >= existingStart;
+      });
+    }
+
+    /* =========================================
+       ANNUAL LEAVE QUOTA CHECK
+       ========================================= */
+
+    function exceedsAnnualLeaveQuota(type, requestedDays) {
+      if (type !== "Annual") {
+        return false;
+      }
+
+      const quota = getAnnualLeaveQuota();
+      const approvedDays = getApprovedAnnualLeaveDays(
+        getRequestsForCurrentEmployee()
+      );
+
+      return approvedDays + requestedDays > quota;
+    }
+
+    /* =========================================
+       SUBMIT LEAVE REQUEST
+       ========================================= */
+
+    function handleLeaveSubmit(event) {
+      event.preventDefault();
+      clearFormMessage();
+
+      const validation = validateLeaveForm();
+
+      if (!validation.valid) {
+        showFormMessage(validation.message, "error");
+        return;
+      }
+
+      const formData = validation.data;
+
+      if (
+        hasOverlappingRequest(formData.startDate, formData.endDate)
+      ) {
+        showFormMessage(
+          "You already have a pending or approved leave request that overlaps these dates.",
+          "error"
+        );
+        return;
+      }
+
+      if (
+        exceedsAnnualLeaveQuota(formData.type, formData.days)
+      ) {
+        showFormMessage(
+          "This request would exceed your remaining annual leave quota. Please check your balance.",
+          "error"
+        );
+        return;
+      }
+
+      const request = {
+        id: createId(),
+
+        // These fields allow the admin page to identify the employee.
+        employeeId: currentUser.id,
+        employeeName: getEmployeeName(currentUser),
+        username: currentUser.username || "",
+
+        type: formData.type,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        days: formData.days,
+        reason: formData.reason,
+        notes: formData.notes,
+
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        reviewedAt: null,
+        reviewedBy: null
+      };
+
+      // Reload storage before saving so another page's latest changes
+      // are less likely to be overwritten by stale in-memory data.
+      const latestStoredLeaves = readStorage(STORAGE_KEYS.leaves, []);
+
+      if (!Array.isArray(latestStoredLeaves)) {
+        showFormMessage(
+          "Leave data could not be read. Please refresh the page and try again.",
+          "error"
+        );
+        return;
+      }
+
+      // Recheck overlaps against the latest stored records.
+      leaveRequests = latestStoredLeaves;
+
+      if (
+        hasOverlappingRequest(formData.startDate, formData.endDate)
+      ) {
+        showFormMessage(
+          "A pending or approved request already overlaps these dates. Please refresh and check your leave history.",
+          "error"
+        );
+        return;
+      }
+
+      if (
+        exceedsAnnualLeaveQuota(formData.type, formData.days)
+      ) {
+        showFormMessage(
+          "This request would exceed your remaining annual leave quota.",
+          "error"
+        );
+        return;
+      }
+
+      leaveRequests.push(request);
+
+      const saved = writeStorage(STORAGE_KEYS.leaves, leaveRequests);
+
+      if (!saved) {
+        leaveRequests.pop();
+
+        showFormMessage(
+          "Your leave request could not be saved. Please check browser storage and try again.",
+          "error"
+        );
+        return;
+      }
+
+      renderLeaveSummary();
+      renderLeaveRequests();
+
+      elements.leaveApplicationForm.reset();
+      setUpDateInputs();
+
+      showFormMessage(
+        "Your leave request has been submitted successfully and is now pending administrator review.",
+        "success"
+      );
+
+      // Bring the confirmation into view.
+      elements.leaveFormMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
+
+    /* =========================================
+       MOBILE SIDEBAR
+       ========================================= */
+
+    function setSidebarOpen(isOpen) {
+      elements.sidebar.classList.toggle("open", isOpen);
+      elements.sidebarOverlay.classList.toggle("visible", isOpen);
+      elements.menuToggle.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    function toggleSidebar() {
+      const isOpen = elements.sidebar.classList.contains("open");
+      setSidebarOpen(!isOpen);
+    }
+
+    /* =========================================
+       LOGOUT
+       ========================================= */
+
+    function handleLogout() {
+      const shouldLogout = window.confirm("Are you sure you want to log out?");
+
+      if (!shouldLogout) {
+        return;
+      }
+
+      localStorage.removeItem(STORAGE_KEYS.session);
+      window.location.replace("index.html");
+    }
+
+    /* =========================================
+       EVENT LISTENERS
+       ========================================= */
+
+    function attachEventListeners() {
+      elements.leaveSearch.addEventListener("input", renderLeaveRequests);
+
+      elements.leaveStatusFilter.addEventListener(
+        "change",
+        renderLeaveRequests
+      );
+
+      elements.leaveApplicationForm.addEventListener(
+        "submit",
+        handleLeaveSubmit
+      );
+
+      elements.resetLeaveForm.addEventListener("click", () => {
+        clearFormMessage();
+
+        // Reset date constraints after the browser resets the inputs.
+        window.setTimeout(setUpDateInputs, 0);
+      });
+
+      elements.menuToggle.addEventListener("click", toggleSidebar);
+
+      elements.sidebarOverlay.addEventListener("click", () => {
+        setSidebarOpen(false);
+      });
+
+      elements.sidebar.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          setSidebarOpen(false);
+        });
+      });
+
+      elements.logoutButton.addEventListener("click", handleLogout);
+    }
+
+    /* =========================================
+       START APPLICATION
+       ========================================= */
+
+    initializeDashboard();
+
+  </script>
+</body>
+
+</html>

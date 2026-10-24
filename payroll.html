@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HCM Lite Payroll Management">
+  <title>Payroll Management | HCM Lite</title>
+  <link rel="stylesheet" href="payroll.css">
+</head>
+
+<body>
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">H</div>
+        <div class="brand-text">
+          <h2>HCM Lite</h2>
+          <span>HR Management</span>
+        </div>
+      </div>
+
+      <div class="sidebar-label">MAIN MENU</div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="admin.html" class="nav-link">
+          <span class="nav-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="employees.html" class="nav-link">
+          <span class="nav-icon">♙</span>
+          <span>Employees</span>
+        </a>
+
+        <a href="leaves.html" class="nav-link">
+          <span class="nav-icon">▣</span>
+          <span>Leave Requests</span>
+        </a>
+
+        <a href="payroll.html" class="nav-link active" aria-current="page">
+          <span class="nav-icon">＄</span>
+          <span>Payroll</span>
+          <span class="nav-active-dot"></span>
+        </a>
+
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙</span>
+          <span>Company Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebar-avatar">A</div>
+          <div class="sidebar-user-info">
+            <strong id="sidebar-admin-name">Administrator</strong>
+            <span>Admin account</span>
+          </div>
+        </div>
+
+        <button type="button" class="logout-button" id="logout-button">
+          <span class="nav-icon">↪</span>
+          <span>Log out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu"
+            aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <div class="breadcrumb">
+            <span>Management</span>
+            <span class="breadcrumb-divider">/</span>
+            <strong>Payroll</strong>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-date" id="current-date">25 Oct 2026</div>
+          <div class="topbar-avatar" id="topbar-avatar">A</div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
+        <!-- PAGE HEADING -->
+        <section class="page-heading">
+          <div>
+            <p class="eyebrow">FINANCE & COMPENSATION</p>
+            <h1>Payroll Management</h1>
+            <p class="page-description">
+              Manage monthly salaries, review deductions and prepare employee payslips.
+            </p>
+          </div>
+
+          <div class="heading-actions">
+            <button type="button" class="button button-secondary" id="print-report-button">
+              <span>▤</span>
+              Print Report
+            </button>
+
+            <button type="button" class="button button-primary" id="generate-payroll-button">
+              <span>＋</span>
+              Generate Payroll
+            </button>
+          </div>
+        </section>
+
+        <!-- MESSAGE -->
+        <div class="page-message" id="payroll-message" role="status" aria-live="polite" hidden></div>
+
+        <!-- PAYROLL PERIOD -->
+        <section class="panel period-panel">
+          <div class="period-heading">
+            <div class="section-icon">▦</div>
+            <div>
+              <h2>Payroll Period</h2>
+              <p>Select the month for which you want to review payroll.</p>
+            </div>
+          </div>
+
+          <div class="period-controls">
+            <div class="field-group">
+              <label for="payroll-month">Payroll month</label>
+              <input type="month" id="payroll-month" required>
+            </div>
+
+            <div class="period-status">
+              <span class="status-indicator"></span>
+              <span id="payroll-period-status">Not generated</span>
+            </div>
+
+            <button type="button" class="button button-secondary" id="load-payroll-button">
+              Load Payroll
+            </button>
+          </div>
+
+          <p class="period-note">
+            Review employee salary records before generating the selected month's payroll.
+          </p>
+        </section>
+
+        <!-- SUMMARY CARDS -->
+        <section class="summary-grid" aria-label="Payroll summary">
+
+          <article class="summary-card">
+            <div class="summary-card-top">
+              <div class="summary-icon icon-blue">♙</div>
+              <span class="summary-label">Employees</span>
+            </div>
+            <div class="summary-value" id="payroll-employee-count">0</div>
+            <p class="summary-description">Employees included in payroll</p>
+          </article>
+
+          <article class="summary-card">
+            <div class="summary-card-top">
+              <div class="summary-icon icon-teal">＄</div>
+              <span class="summary-label">Gross Salary</span>
+            </div>
+            <div class="summary-value currency-value" id="payroll-gross-total">Rs 0</div>
+            <p class="summary-description">Total salary before deductions</p>
+          </article>
+
+          <article class="summary-card">
+            <div class="summary-card-top">
+              <div class="summary-icon icon-orange">−</div>
+              <span class="summary-label">Deductions</span>
+            </div>
+            <div class="summary-value currency-value" id="payroll-deductions-total">Rs 0</div>
+            <p class="summary-description">Total salary deductions</p>
+          </article>
+
+          <article class="summary-card summary-card-highlight">
+            <div class="summary-card-top">
+              <div class="summary-icon icon-green">✓</div>
+              <span class="summary-label">Net Payroll</span>
+            </div>
+            <div class="summary-value currency-value" id="payroll-net-total">Rs 0</div>
+            <p class="summary-description">Total payable salary</p>
+          </article>
+
+        </section>
+
+        <!-- PAYROLL TABLE -->
+        <section class="panel payroll-panel">
+
+          <div class="panel-header">
+            <div>
+              <h2>Employee Payroll</h2>
+              <p>Review individual salaries and deductions for the selected period.</p>
+            </div>
+
+            <span class="count-badge" id="payroll-count-badge">0 employees</span>
+          </div>
+
+          <!-- SEARCH AND FILTERS -->
+          <div class="table-toolbar">
+            <div class="search-wrapper">
+              <span class="search-icon">⌕</span>
+              <input type="search" id="payroll-search" placeholder="Search employee..."
+                aria-label="Search payroll by employee">
+            </div>
+
+            <div class="filter-group">
+              <label class="visually-hidden" for="payroll-department-filter">
+                Filter by department
+              </label>
+
+              <select id="payroll-department-filter">
+                <option value="all">All departments</option>
+              </select>
+
+              <label class="visually-hidden" for="payroll-status-filter">
+                Filter by payroll status
+              </label>
+
+              <select id="payroll-status-filter">
+                <option value="all">All statuses</option>
+                <option value="pending">Pending</option>
+                <option value="generated">Generated</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="table-container">
+            <table class="payroll-table">
+              <thead>
+                <tr>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Base Salary</th>
+                  <th scope="col">Deductions</th>
+                  <th scope="col">Net Salary</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="actions-heading">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="payroll-table-body">
+                <!-- Rows will be rendered by payroll.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div class="empty-state" id="payroll-empty-state">
+            <div class="empty-state-icon">▤</div>
+            <h3 id="payroll-empty-title">No payroll records yet</h3>
+            <p id="payroll-empty-description">
+              Select a payroll month and load employee records to get started.
+            </p>
+
+            <button type="button" class="button button-primary" id="empty-generate-button">
+              Generate Payroll
+            </button>
+          </div>
+
+          <div class="table-footer">
+            <p id="payroll-results-message">Showing 0 employees</p>
+            <p>Currency: <strong>PKR (Rs)</strong></p>
+          </div>
+        </section>
+
+        <!-- PAYROLL INFORMATION -->
+        <section class="information-grid">
+
+          <article class="panel information-card">
+            <div class="information-icon">ⓘ</div>
+            <div>
+              <h3>Payroll Calculation</h3>
+              <p>
+                Net salary is calculated by subtracting applicable deductions
+                from the employee's gross salary.
+              </p>
+              <div class="formula">
+                Net Salary = Gross Salary − Deductions
+              </div>
+            </div>
+          </article>
+
+          <article class="panel information-card">
+            <div class="information-icon information-icon-teal">✓</div>
+            <div>
+              <h3>Before Finalizing</h3>
+              <p>
+                Verify employee salary details, attendance records and any
+                applicable unpaid leave before finalizing payroll.
+              </p>
+              <span class="information-footnote">
+                Check calculations before marking payroll as paid.
+              </span>
+            </div>
+          </article>
+
+        </section>
+
+        <footer class="page-footer">
+          <span>© 2026 HCM Lite</span>
+          <span>Human Capital Management System</span>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- PAYSLIP DIALOG -->
+  <dialog class="payslip-dialog" id="payslip-dialog">
+    <div class="payslip-dialog-header">
+      <div>
+        <p class="eyebrow">HCM LITE</p>
+        <h2>Employee Payslip</h2>
+      </div>
+
+      <button type="button" class="dialog-close" id="close-payslip-button" aria-label="Close payslip">×</button>
+    </div>
+
+    <div id="payslip-content" class="payslip-content">
+      <!-- Payslip content will be rendered by payroll.js -->
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="button button-secondary" id="cancel-payslip-button">
+        Close
+      </button>
+
+      <button type="button" class="button button-primary" id="print-payslip-button">
+        Print Payslip
+      </button>
+    </div>
+  </dialog>
+
+  <!-- Load JavaScript after the HTML -->
+  <script>
+
+    "use strict";
+
+    /* =========================================
+       HCM LITE — PAYROLL MODULE
+       Storage:
+       hcm_users
+       hcm_company
+       hcm_session
+       hcm_payroll
+    ========================================= */
+
+    const STORAGE_KEYS = {
+      users: "hcm_users",
+      company: "hcm_company",
+      session: "hcm_session",
+      payroll: "hcm_payroll",
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const sidebar = $("#sidebar");
+    const sidebarOverlay = $("#sidebar-overlay");
+    const menuToggle = $("#menu-toggle");
+    const logoutButton = $("#logout-button");
+
+    const payrollMonthInput = $("#payroll-month");
+    const payrollPeriodStatus = $("#payroll-period-status");
+    const payrollMessage = $("#payroll-message");
+
+    const payrollSearch = $("#payroll-search");
+    const departmentFilter = $("#payroll-department-filter");
+    const statusFilter = $("#payroll-status-filter");
+
+    const payrollTableBody = $("#payroll-table-body");
+    const payrollCountBadge = $("#payroll-count-badge");
+
+    const emptyState = $("#payroll-empty-state");
+    const emptyTitle = $("#payroll-empty-title");
+    const emptyDescription = $("#payroll-empty-description");
+
+    const payslipDialog = $("#payslip-dialog");
+    const payslipContent = $("#payslip-content");
+
+    let currentAdmin = null;
+    let company = {};
+    let currentPayslip = null;
+
+    /* =========================================
+       STORAGE HELPERS
+    ========================================= */
+
+    function readStorage(key, fallback) {
+      try {
+        const value = localStorage.getItem(key);
+
+        if (value === null) {
+          return fallback;
+        }
+
+        return JSON.parse(value);
+      } catch (error) {
+        console.error(`Could not read ${key}:`, error);
+        return fallback;
+      }
+    }
+
+    function saveStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        console.error(`Could not save ${key}:`, error);
+        showMessage(
+          "Unable to save data. Check your browser storage.",
+          "error"
+        );
+        return false;
+      }
+    }
+
+    function getUsers() {
+      const users = readStorage(STORAGE_KEYS.users, []);
+      return Array.isArray(users) ? users : [];
+    }
+
+    function getPayrollRecords() {
+      const records = readStorage(STORAGE_KEYS.payroll, []);
+      return Array.isArray(records) ? records : [];
+    }
+
+    function getEmployees() {
+      return getUsers().filter((user) => {
+        return (
+          user.role === "employee" &&
+          user.status !== "inactive" &&
+          user.status !== "terminated"
+        );
+      });
+    }
+
+    function createId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+
+      return `payroll-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 9)}`;
+    }
+
+    /* =========================================
+       AUTHENTICATION
+    ========================================= */
+
+    function checkAdminAccess() {
+      const session = readStorage(STORAGE_KEYS.session, null);
+      const users = getUsers();
+
+      if (!session || session.role !== "admin") {
+        window.location.href = "index.html";
+        return false;
+      }
+
+      currentAdmin = users.find((user) => {
+        return (
+          user.id === session.userId &&
+          user.role === "admin"
+        );
+      });
+
+      if (!currentAdmin) {
+        localStorage.removeItem(STORAGE_KEYS.session);
+        window.location.href = "index.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    function setupAdminProfile() {
+      const adminName =
+        currentAdmin.name ||
+        currentAdmin.username ||
+        "Administrator";
+
+      const avatarLetter = adminName.trim().charAt(0).toUpperCase() || "A";
+
+      const adminNameElement = $("#sidebar-admin-name");
+      const sidebarAvatar = $("#sidebar-avatar");
+      const topbarAvatar = $("#topbar-avatar");
+
+      if (adminNameElement) {
+        adminNameElement.textContent = adminName;
+      }
+
+      if (sidebarAvatar) {
+        sidebarAvatar.textContent = avatarLetter;
+      }
+
+      if (topbarAvatar) {
+        topbarAvatar.textContent = avatarLetter;
+      }
+    }
+
+    function setupLogout() {
+      if (!logoutButton) return;
+
+      logoutButton.addEventListener("click", () => {
+        const confirmed = window.confirm("Do you want to log out?");
+
+        if (!confirmed) return;
+
+        localStorage.removeItem(STORAGE_KEYS.session);
+        window.location.href = "index.html";
+      });
+    }
+
+    /* =========================================
+       SIDEBAR
+    ========================================= */
+
+    function setupSidebar() {
+      if (menuToggle) {
+        menuToggle.addEventListener("click", () => {
+          if (sidebar) {
+            sidebar.classList.toggle("open");
+          }
+
+          if (sidebarOverlay) {
+            sidebarOverlay.classList.toggle("visible");
+          }
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", closeSidebar);
+      }
+
+      document.querySelectorAll("#sidebar a").forEach((link) => {
+        link.addEventListener("click", closeSidebar);
+      });
+    }
+
+    function closeSidebar() {
+      if (sidebar) {
+        sidebar.classList.remove("open");
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.classList.remove("visible");
+      }
+    }
+
+    /* =========================================
+       DATE AND CURRENCY
+    ========================================= */
+
+    function getCurrentMonth() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+
+      return `${year}-${month}`;
+    }
+
+    function formatMonth(monthValue) {
+      if (!monthValue || !/^\d{4}-\d{2}$/.test(monthValue)) {
+        return "Selected Month";
+      }
+
+      const [year, month] = monthValue.split("-").map(Number);
+
+      return new Date(year, month - 1, 1).toLocaleDateString("en-PK", {
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    function setupDate() {
+      const dateElement = $("#current-date");
+
+      if (dateElement) {
+        dateElement.textContent = new Date().toLocaleDateString("en-PK", {
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      if (payrollMonthInput && !payrollMonthInput.value) {
+        payrollMonthInput.value = getCurrentMonth();
+      }
+    }
+
+    function formatMoney(amount) {
+      const safeAmount = Number(amount);
+
+      return new Intl.NumberFormat("en-PK", {
+        style: "currency",
+        currency: "PKR",
+        maximumFractionDigits: 0,
+      }).format(Number.isFinite(safeAmount) ? safeAmount : 0);
+    }
+
+    /* =========================================
+       MESSAGES
+    ========================================= */
+
+    function showMessage(message, type = "info") {
+      if (!payrollMessage) return;
+
+      payrollMessage.textContent = message;
+      payrollMessage.className = `page-message ${type}`;
+      payrollMessage.hidden = false;
+    }
+
+    function clearMessage() {
+      if (!payrollMessage) return;
+
+      payrollMessage.textContent = "";
+      payrollMessage.className = "page-message";
+      payrollMessage.hidden = true;
+    }
+
+    /* =========================================
+       PAYROLL DATA
+    ========================================= */
+
+    function getSelectedMonth() {
+      return payrollMonthInput?.value || getCurrentMonth();
+    }
+
+    function getMonthPayroll(month) {
+      return getPayrollRecords().filter((record) => {
+        return record.month === month;
+      });
+    }
+
+    function getEmployeeName(employee) {
+      return employee.name || employee.username || "Unnamed Employee";
+    }
+
+    function getEmployeeSalary(employee) {
+      const salary = Number(employee.salary);
+
+      if (!Number.isFinite(salary) || salary < 0) {
+        return 0;
+      }
+
+      return salary;
+    }
+
+    function generatePayroll() {
+      clearMessage();
+
+      const month = getSelectedMonth();
+
+      if (!/^\d{4}-\d{2}$/.test(month)) {
+        showMessage("Please select a valid payroll month.", "error");
+        return;
+      }
+
+      const employees = getEmployees();
+
+      if (employees.length === 0) {
+        showMessage(
+          "No active employees found. Add employees before generating payroll.",
+          "error"
+        );
+        return;
+      }
+
+      const existingRecords = getPayrollRecords();
+      const existingMonthRecords = existingRecords.filter(
+        (record) => record.month === month
+      );
+
+      if (existingMonthRecords.length > 0) {
+        showMessage(
+          "Payroll for this month already exists. Existing records were kept unchanged.",
+          "info"
+        );
+        renderPayroll();
+        return;
+      }
+
+      const confirmed = window.confirm(
+        `Generate payroll for ${formatMonth(month)} for ${employees.length} employee(s)?`
+      );
+
+      if (!confirmed) return;
+
+      const now = new Date().toISOString();
+
+      const newRecords = employees.map((employee) => {
+        const baseSalary = getEmployeeSalary(employee);
+        const deductions = 0;
+
+        return {
+          id: createId(),
+          month,
+          employeeId: employee.id,
+          employeeName: getEmployeeName(employee),
+          username: employee.username || "",
+          department: employee.department || "Not Assigned",
+          baseSalary,
+          deductions,
+          netSalary: Math.max(0, baseSalary - deductions),
+          status: "generated",
+          generatedAt: now,
+          paidAt: null,
+        };
+      });
+
+      const saved = saveStorage(
+        STORAGE_KEYS.payroll,
+        [...existingRecords, ...newRecords]
+      );
+
+      if (!saved) return;
+
+      showMessage(
+        `Payroll generated for ${formatMonth(month)}.`,
+        "success"
+      );
+
+      renderPayroll();
+    }
+
+    /* =========================================
+       DEPARTMENT FILTER
+    ========================================= */
+
+    function populateDepartmentFilter() {
+      if (!departmentFilter) return;
+
+      const previousValue = departmentFilter.value;
+      const records = getMonthPayroll(getSelectedMonth());
+
+      const departments = [
+        ...new Set(
+          records
+            .map((record) => record.department || "Not Assigned")
+            .filter(Boolean)
+        ),
+      ].sort((a, b) => a.localeCompare(b));
+
+      departmentFilter.replaceChildren();
+
+      const allOption = document.createElement("option");
+      allOption.value = "all";
+      allOption.textContent = "All Departments";
+      departmentFilter.appendChild(allOption);
+
+      departments.forEach((department) => {
+        const option = document.createElement("option");
+        option.value = department;
+        option.textContent = department;
+        departmentFilter.appendChild(option);
+      });
+
+      if (
+        previousValue === "all" ||
+        departments.includes(previousValue)
+      ) {
+        departmentFilter.value = previousValue || "all";
+      } else {
+        departmentFilter.value = "all";
+      }
+    }
+
+    /* =========================================
+       SUMMARY CARDS
+    ========================================= */
+
+    function updateSummary(records) {
+      const employeeCount = $("#payroll-employee-count");
+      const grossTotal = $("#payroll-gross-total");
+      const deductionsTotal = $("#payroll-deductions-total");
+      const netTotal = $("#payroll-net-total");
+
+      const gross = records.reduce((sum, record) => {
+        return sum + Number(record.baseSalary || 0);
+      }, 0);
+
+      const deductions = records.reduce((sum, record) => {
+        return sum + Number(record.deductions || 0);
+      }, 0);
+
+      const net = records.reduce((sum, record) => {
+        return sum + Number(record.netSalary || 0);
+      }, 0);
+
+      if (employeeCount) {
+        employeeCount.textContent = records.length;
+      }
+
+      if (grossTotal) {
+        grossTotal.textContent = formatMoney(gross);
+      }
+
+      if (deductionsTotal) {
+        deductionsTotal.textContent = formatMoney(deductions);
+      }
+
+      if (netTotal) {
+        netTotal.textContent = formatMoney(net);
+      }
+
+      if (payrollPeriodStatus) {
+        const isGenerated = records.length > 0;
+
+        payrollPeriodStatus.textContent = isGenerated
+          ? "Payroll Generated"
+          : "Not Generated";
+
+        payrollPeriodStatus.classList.toggle(
+          "is-generated",
+          isGenerated
+        );
+      }
+    }
+
+    /* =========================================
+       STATUS HELPERS
+    ========================================= */
+
+    function getStatusLabel(status) {
+      const labels = {
+        pending: "Pending",
+        generated: "Generated",
+        paid: "Paid",
+        unpaid: "Unpaid",
+      };
+
+      return labels[status] || "Generated";
+    }
+
+    function getStatusClass(status) {
+      const allowedStatuses = [
+        "pending",
+        "generated",
+        "paid",
+        "unpaid",
+      ];
+
+      const safeStatus = allowedStatuses.includes(status)
+        ? status
+        : "generated";
+
+      return `status-${safeStatus}`;
+    }
+
+    /* =========================================
+       TABLE RENDERING
+    ========================================= */
+
+    function createCell(className, text) {
+      const cell = document.createElement("td");
+
+      if (className) {
+        cell.className = className;
+      }
+
+      cell.textContent = text;
+
+      return cell;
+    }
+
+    function createEmployeeCell(record) {
+      const cell = document.createElement("td");
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "employee-cell";
+
+      const avatar = document.createElement("div");
+      avatar.className = "employee-table-avatar";
+      avatar.textContent =
+        (record.employeeName || "E").trim().charAt(0).toUpperCase();
+
+      const info = document.createElement("div");
+      info.className = "employee-cell-info";
+
+      const name = document.createElement("strong");
+      name.textContent = record.employeeName || "Unnamed Employee";
+
+      const username = document.createElement("span");
+      username.textContent = record.username || "";
+
+      info.append(name, username);
+      wrapper.append(avatar, info);
+      cell.appendChild(wrapper);
+
+      return cell;
+    }
+
+    function createActionButton(label, action, recordId, extraClass = "") {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.textContent = label;
+      button.dataset.action = action;
+      button.dataset.id = recordId;
+      button.className = `table-action-button ${extraClass}`.trim();
+
+      return button;
+    }
+
+    function createPayrollRow(record) {
+      const row = document.createElement("tr");
+
+      row.appendChild(createEmployeeCell(record));
+
+      row.appendChild(
+        createCell("", record.department || "Not Assigned")
+      );
+
+      row.appendChild(
+        createCell(
+          "salary-amount",
+          formatMoney(record.baseSalary)
+        )
+      );
+
+      row.appendChild(
+        createCell(
+          "deduction-amount",
+          formatMoney(record.deductions)
+        )
+      );
+
+      row.appendChild(
+        createCell(
+          "net-salary-amount",
+          formatMoney(record.netSalary)
+        )
+      );
+
+      const statusCell = document.createElement("td");
+      const statusBadge = document.createElement("span");
+
+      statusBadge.className = `status-badge ${getStatusClass(record.status)}`;
+      statusBadge.textContent = getStatusLabel(record.status);
+
+      statusCell.appendChild(statusBadge);
+      row.appendChild(statusCell);
+
+      const actionsCell = document.createElement("td");
+      const actionsWrapper = document.createElement("div");
+
+      actionsWrapper.className = "table-actions";
+
+      actionsWrapper.appendChild(
+        createActionButton("Payslip", "payslip", record.id)
+      );
+
+      if (record.status !== "paid") {
+        actionsWrapper.appendChild(
+          createActionButton("Mark Paid", "mark-paid", record.id)
+        );
+      }
+
+      actionsCell.appendChild(actionsWrapper);
+      row.appendChild(actionsCell);
+
+      return row;
+    }
+
+    function renderPayroll() {
+      if (!payrollTableBody) return;
+
+      const month = getSelectedMonth();
+      const monthRecords = getMonthPayroll(month);
+
+      populateDepartmentFilter();
+      updateSummary(monthRecords);
+
+      const searchTerm = (payrollSearch?.value || "")
+        .trim()
+        .toLowerCase();
+
+      const selectedDepartment = departmentFilter?.value || "all";
+      const selectedStatus = statusFilter?.value || "all";
+
+      const filteredRecords = monthRecords.filter((record) => {
+        const searchableText = [
+          record.employeeName,
+          record.username,
+          record.department,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        const matchesSearch = searchableText.includes(searchTerm);
+
+        const matchesDepartment =
+          selectedDepartment === "all" ||
+          record.department === selectedDepartment;
+
+        const matchesStatus =
+          selectedStatus === "all" ||
+          record.status === selectedStatus;
+
+        return (
+          matchesSearch &&
+          matchesDepartment &&
+          matchesStatus
+        );
+      });
+
+      payrollTableBody.replaceChildren();
+
+      filteredRecords.forEach((record) => {
+        payrollTableBody.appendChild(createPayrollRow(record));
+      });
+
+      if (payrollCountBadge) {
+        payrollCountBadge.textContent = String(filteredRecords.length);
+      }
+
+      const hasRecords = filteredRecords.length > 0;
+
+      if (emptyState) {
+        emptyState.hidden = hasRecords;
+      }
+
+      if (!hasRecords) {
+        const hasMonthRecords = monthRecords.length > 0;
+
+        if (emptyTitle) {
+          emptyTitle.textContent = hasMonthRecords
+            ? "No matching payroll records"
+            : "No payroll generated";
+        }
+
+        if (emptyDescription) {
+          emptyDescription.textContent = hasMonthRecords
+            ? "Try changing your search or filters."
+            : "Select a month and generate payroll to view employee salaries.";
+        }
+      }
+
+      const resultsMessage = $("#payroll-results-message");
+
+      if (resultsMessage) {
+        resultsMessage.textContent =
+          `${filteredRecords.length} of ${monthRecords.length} employee record(s)`;
+      }
+    }
+
+    /* =========================================
+       MARK PAYROLL AS PAID
+    ========================================= */
+
+    function markPayrollPaid(recordId) {
+      const records = getPayrollRecords();
+
+      const record = records.find((item) => item.id === recordId);
+
+      if (!record) {
+        showMessage("Payroll record could not be found.", "error");
+        return;
+      }
+
+      if (record.status === "paid") {
+        showMessage("This payroll has already been marked as paid.", "info");
+        return;
+      }
+
+      const confirmed = window.confirm(
+        `Mark ${record.employeeName}'s payroll as paid?`
+      );
+
+      if (!confirmed) return;
+
+      const updatedRecords = records.map((item) => {
+        if (item.id !== recordId) return item;
+
+        return {
+          ...item,
+          status: "paid",
+          paidAt: new Date().toISOString(),
+        };
+      });
+
+      const saved = saveStorage(
+        STORAGE_KEYS.payroll,
+        updatedRecords
+      );
+
+      if (!saved) return;
+
+      showMessage("Payroll status updated to Paid.", "success");
+      renderPayroll();
+    }
+
+    /* =========================================
+       PAYSLIP
+    ========================================= */
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => {
+        const replacements = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        };
+
+        return replacements[character];
+      });
+    }
+
+    function openPayslip(recordId) {
+      const record = getPayrollRecords().find(
+        (item) => item.id === recordId
+      );
+
+      if (!record) {
+        showMessage("Payslip record could not be found.", "error");
+        return;
+      }
+
+      currentPayslip = record;
+
+      const companyName = company.name || "HCM Lite";
+      const employeeName = record.employeeName || "Unnamed Employee";
+      const department = record.department || "Not Assigned";
+
+      const status = getStatusLabel(record.status);
+      const generatedDate = record.generatedAt
+        ? new Date(record.generatedAt).toLocaleDateString("en-PK")
+        : "Not available";
+
+      const paidDate = record.paidAt
+        ? new Date(record.paidAt).toLocaleDateString("en-PK")
+        : "Not paid";
+
+      if (payslipContent) {
+        payslipContent.innerHTML = `
+      <div class="payslip-company">
+        <h2>${escapeHTML(companyName)}</h2>
+        <p>Employee Salary Payslip</p>
+        <h3>${escapeHTML(formatMonth(record.month))}</h3>
+      </div>
+
+      <div class="payslip-details">
+        <div class="payslip-detail">
+          <span>Employee</span>
+          <strong>${escapeHTML(employeeName)}</strong>
+        </div>
+
+        <div class="payslip-detail">
+          <span>Username</span>
+          <strong>${escapeHTML(record.username || "—")}</strong>
+        </div>
+
+        <div class="payslip-detail">
+          <span>Department</span>
+          <strong>${escapeHTML(department)}</strong>
+        </div>
+
+        <div class="payslip-detail">
+          <span>Payroll Status</span>
+          <strong>${escapeHTML(status)}</strong>
+        </div>
+
+        <div class="payslip-detail">
+          <span>Generated On</span>
+          <strong>${escapeHTML(generatedDate)}</strong>
+        </div>
+
+        <div class="payslip-detail">
+          <span>Paid On</span>
+          <strong>${escapeHTML(paidDate)}</strong>
+        </div>
+      </div>
+
+      <div class="payslip-breakdown">
+        <div>
+          <span>Base Salary</span>
+          <strong>${escapeHTML(formatMoney(record.baseSalary))}</strong>
+        </div>
+
+        <div>
+          <span>Deductions</span>
+          <strong>${escapeHTML(formatMoney(record.deductions))}</strong>
+        </div>
+
+        <div class="payslip-net-total">
+          <span>Net Salary</span>
+          <strong>${escapeHTML(formatMoney(record.netSalary))}</strong>
+        </div>
+      </div>
+
+      <p class="payslip-note">
+        This payslip was generated by HCM Lite.
+      </p>
+    `;
+      }
+
+      if (payslipDialog && typeof payslipDialog.showModal === "function") {
+        if (!payslipDialog.open) {
+          payslipDialog.showModal();
+        }
+      } else {
+        showMessage(
+          "Payslip dialog is missing or is not supported by this browser.",
+          "error"
+        );
+      }
+    }
+
+    function closePayslip() {
+      if (payslipDialog?.open) {
+        payslipDialog.close();
+      }
+
+      currentPayslip = null;
+    }
+
+    /* =========================================
+       PRINT
+    ========================================= */
+
+    function printPayrollReport() {
+      if (getMonthPayroll(getSelectedMonth()).length === 0) {
+        showMessage("Generate payroll before printing the report.", "info");
+        return;
+      }
+
+      window.print();
+    }
+
+    function printPayslip() {
+      if (!currentPayslip) {
+        showMessage("Open a payslip before printing.", "info");
+        return;
+      }
+
+      window.print();
+    }
+
+    /* =========================================
+       EVENT LISTENERS
+    ========================================= */
+
+    function setupEvents() {
+      $("#load-payroll-button")?.addEventListener("click", () => {
+        clearMessage();
+        renderPayroll();
+      });
+
+      $("#generate-payroll-button")?.addEventListener(
+        "click",
+        generatePayroll
+      );
+
+      $("#empty-generate-button")?.addEventListener("click", () => {
+        if (getEmployees().length === 0) {
+          window.location.href = "employees.html";
+          return;
+        }
+
+        generatePayroll();
+      });
+
+      payrollSearch?.addEventListener("input", renderPayroll);
+      departmentFilter?.addEventListener("change", renderPayroll);
+      statusFilter?.addEventListener("change", renderPayroll);
+
+      payrollMonthInput?.addEventListener("change", () => {
+        clearMessage();
+
+        if (payrollMonthInput.value) {
+          renderPayroll();
+        }
+      });
+
+      payrollTableBody?.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-action]");
+
+        if (!button) return;
+
+        const { action, id } = button.dataset;
+
+        if (action === "payslip") {
+          openPayslip(id);
+        }
+
+        if (action === "mark-paid") {
+          markPayrollPaid(id);
+        }
+      });
+
+      $("#print-report-button")?.addEventListener(
+        "click",
+        printPayrollReport
+      );
+
+      $("#print-payslip-button")?.addEventListener(
+        "click",
+        printPayslip
+      );
+
+      $("#close-payslip-button")?.addEventListener(
+        "click",
+        closePayslip
+      );
+
+      $("#cancel-payslip-button")?.addEventListener(
+        "click",
+        closePayslip
+      );
+
+      payslipDialog?.addEventListener("click", (event) => {
+        if (event.target === payslipDialog) {
+          closePayslip();
+        }
+      });
+    }
+
+    /* =========================================
+       INITIALIZE
+    ========================================= */
+
+    function initPayroll() {
+      if (!checkAdminAccess()) return;
+
+      company = readStorage(STORAGE_KEYS.company, {}) || {};
+
+      setupAdminProfile();
+      setupLogout();
+      setupSidebar();
+      setupDate();
+      setupEvents();
+
+      renderPayroll();
+    }
+
+    document.addEventListener("DOMContentLoaded", initPayroll);
+
+  </script>
+</body>
+
+</html>

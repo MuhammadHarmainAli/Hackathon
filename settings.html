@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Settings | HCM Lite</title>
+  <link rel="stylesheet" href="settings.css">
+  <script src="settings.js" defer></script>
+</head>
+
+<body>
+
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">H</div>
+      <div>
+        <h2>HCM Lite</h2>
+        <p>Human Capital Management</p>
+      </div>
+    </div>
+
+    <div class="sidebar-profile">
+      <div class="profile-avatar" id="sidebar-avatar">A</div>
+      <div class="profile-info">
+        <strong id="sidebar-admin-name">Administrator</strong>
+        <span>Administrator</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-heading">MAIN MENU</p>
+
+      <a href="admin.html" class="nav-link">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="employees.html" class="nav-link">
+        <span class="nav-icon">♙</span>
+        <span>Employees</span>
+      </a>
+
+      <a href="leaves.html" class="nav-link">
+        <span class="nav-icon">▤</span>
+        <span>Leave Requests</span>
+      </a>
+
+      <a href="attendance.html" class="nav-link">
+        <span class="nav-icon">◷</span>
+        <span>Attendance</span>
+      </a>
+
+      <a href="payroll.html" class="nav-link">
+        <span class="nav-icon">＄</span>
+        <span>Payroll</span>
+      </a>
+
+      <p class="nav-heading management-heading">MANAGEMENT</p>
+
+      <a href="settings.html" class="nav-link active">
+        <span class="nav-icon">⚙</span>
+        <span>Company Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-text">
+        <span class="footer-dot"></span>
+        System Active
+      </div>
+
+      <button type="button" class="logout-button" id="logout-button">
+        <span>↪</span>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        <span>Management</span>
+        <span class="breadcrumb-divider">/</span>
+        <strong>Company Settings</strong>
+      </div>
+
+      <div class="topbar-right">
+        <div class="date-display" id="current-date"></div>
+        <div class="topbar-avatar" id="topbar-avatar">A</div>
+      </div>
+    </header>
+
+    <section class="page-content">
+
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">CONFIGURATION</p>
+          <h1>Company Settings</h1>
+          <p class="page-subtitle">
+            Manage your company profile, working hours and HR policies.
+          </p>
+        </div>
+
+        <div class="heading-badge">
+          <span class="heading-badge-dot"></span>
+          Admin Settings
+        </div>
+      </div>
+
+      <div class="settings-notice">
+        <span class="notice-icon">ⓘ</span>
+        <p>
+          Changes to office hours and leave policy may affect attendance
+          and leave calculations across the system.
+        </p>
+      </div>
+
+      <div class="page-message" id="settings-message" role="status" aria-live="polite" hidden></div>
+
+      <form id="settings-form" novalidate>
+
+        <!-- Company Profile -->
+        <section class="settings-card">
+          <div class="card-heading">
+            <div class="card-icon company-icon">▣</div>
+            <div>
+              <h2>Company Profile</h2>
+              <p>Basic information about your organization.</p>
+            </div>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="company-name">
+                Company Name <span class="required">*</span>
+              </label>
+              <input type="text" id="company-name" name="companyName" placeholder="e.g. Acme Solutions" maxlength="100"
+                required>
+              <small>The name displayed throughout your HR system.</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- Office Timings -->
+        <section class="settings-card">
+          <div class="card-heading">
+            <div class="card-icon timing-icon">◷</div>
+            <div>
+              <h2>Office Timings</h2>
+              <p>Set your organization's standard working hours.</p>
+            </div>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="office-start">
+                Office Start Time <span class="required">*</span>
+              </label>
+              <input type="time" id="office-start" name="officeStart" value="09:00" required>
+              <small>Employees are expected to arrive by this time.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="office-end">
+                Office End Time <span class="required">*</span>
+              </label>
+              <input type="time" id="office-end" name="officeEnd" value="17:00" required>
+              <small>The standard end of the working day.</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- Attendance Policy -->
+        <section class="settings-card">
+          <div class="card-heading">
+            <div class="card-icon attendance-icon">✓</div>
+            <div>
+              <h2>Attendance Policy</h2>
+              <p>Configure how late arrivals are evaluated.</p>
+            </div>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="grace-minutes">
+                Late Arrival Grace Period <span class="required">*</span>
+              </label>
+
+              <div class="input-with-suffix">
+                <input type="number" id="grace-minutes" name="graceMinutes" min="0" max="180" step="1" value="15"
+                  required>
+                <span>minutes</span>
+              </div>
+
+              <small>
+                Extra minutes allowed after office start time before an
+                employee is considered late.
+              </small>
+            </div>
+          </div>
+
+          <div class="policy-example">
+            <span class="example-icon">✦</span>
+            <div>
+              <strong>Example</strong>
+              <p id="attendance-example">
+                With a 9:00 AM start and a 15-minute grace period,
+                arrival after 9:15 AM is considered late.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Leave Policy -->
+        <section class="settings-card">
+          <div class="card-heading">
+            <div class="card-icon leave-icon">▤</div>
+            <div>
+              <h2>Leave Policy</h2>
+              <p>Define the standard annual leave allowance.</p>
+            </div>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="leave-quota">
+                Annual Leave Quota <span class="required">*</span>
+              </label>
+
+              <div class="input-with-suffix">
+                <input type="number" id="leave-quota" name="leaveQuota" min="0" max="365" step="1" value="12" required>
+                <span>days / year</span>
+              </div>
+
+              <small>
+                Default yearly leave allowance in days.
+              </small>
+            </div>
+          </div>
+
+          <div class="policy-example leave-example">
+            <span class="example-icon">✦</span>
+            <div>
+              <strong>Policy reminder</strong>
+              <p>
+                This setting defines the standard quota. Leave balance
+                calculations must also be implemented in the leave module.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Form Actions -->
+        <div class="settings-actions">
+          <button type="button" class="button button-secondary" id="reset-settings-button">
+            Reset Changes
+          </button>
+
+          <button type="submit" class="button button-primary" id="save-settings-button">
+            <span>✓</span>
+            Save Changes
+          </button>
+        </div>
+
+      </form>
+
+      <footer class="page-footer">
+        <span>HCM Lite</span>
+        <span>Company Configuration</span>
+      </footer>
+
+    </section>
+  </main>
+
+
+  <script>
+
+    "use strict";
+
+    /* =========================================
+       HCM LITE — COMPANY SETTINGS
+    ========================================= */
+
+    const COMPANY_KEY = "hcm_company";
+    const USERS_KEY = "hcm_users";
+    const SESSION_KEY = "hcm_session";
+
+    const settingsForm = document.querySelector("#settings-form");
+    const companyNameInput = document.querySelector("#company-name");
+    const officeStartInput = document.querySelector("#office-start");
+    const officeEndInput = document.querySelector("#office-end");
+    const graceMinutesInput = document.querySelector("#grace-minutes");
+    const leaveQuotaInput = document.querySelector("#leave-quota");
+
+    const settingsMessage = document.querySelector("#settings-message");
+    const resetButton = document.querySelector("#reset-settings-button");
+    const saveButton = document.querySelector("#save-settings-button");
+    const attendanceExample = document.querySelector("#attendance-example");
+
+    const sidebar = document.querySelector("#sidebar");
+    const sidebarOverlay = document.querySelector("#sidebar-overlay");
+    const menuToggle = document.querySelector("#menu-toggle");
+    const logoutButton = document.querySelector("#logout-button");
+
+    let originalSettings = null;
+    let currentAdmin = null;
+
+    /* =========================================
+       STORAGE HELPERS
+    ========================================= */
+
+    function readStorage(key, fallback) {
+      try {
+        const storedValue = localStorage.getItem(key);
+
+        if (storedValue === null) {
+          return fallback;
+        }
+
+        return JSON.parse(storedValue);
+      } catch (error) {
+        console.error(`Error reading ${key}:`, error);
+        return fallback;
+      }
+    }
+
+    function saveCompanySettings(settings) {
+      try {
+        localStorage.setItem(
+          COMPANY_KEY,
+          JSON.stringify(settings)
+        );
+
+        return true;
+      } catch (error) {
+        console.error("Error saving company settings:", error);
+        showMessage(
+          "Settings could not be saved. Check browser storage.",
+          "error"
+        );
+
+        return false;
+      }
+    }
+
+    /* =========================================
+       ADMIN AUTHENTICATION
+    ========================================= */
+
+    function checkAdminAccess() {
+      const session = readStorage(SESSION_KEY, null);
+      const users = readStorage(USERS_KEY, []);
+
+      if (!session || session.role !== "admin") {
+        window.location.href = "index.html";
+        return false;
+      }
+
+      if (!Array.isArray(users)) {
+        window.location.href = "index.html";
+        return false;
+      }
+
+      currentAdmin = users.find((user) => {
+        return (
+          user.id === session.userId &&
+          user.role === "admin"
+        );
+      });
+
+      if (!currentAdmin) {
+        localStorage.removeItem(SESSION_KEY);
+        window.location.href = "index.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    function setupAdminProfile() {
+      const adminName =
+        currentAdmin.name ||
+        currentAdmin.username ||
+        "Administrator";
+
+      const initial = adminName.trim().charAt(0).toUpperCase() || "A";
+
+      const adminNameElement =
+        document.querySelector("#sidebar-admin-name");
+
+      const sidebarAvatar =
+        document.querySelector("#sidebar-avatar");
+
+      const topbarAvatar =
+        document.querySelector("#topbar-avatar");
+
+      if (adminNameElement) {
+        adminNameElement.textContent = adminName;
+      }
+
+      if (sidebarAvatar) {
+        sidebarAvatar.textContent = initial;
+      }
+
+      if (topbarAvatar) {
+        topbarAvatar.textContent = initial;
+      }
+    }
+
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
+    function setupLogout() {
+      if (!logoutButton) return;
+
+      logoutButton.addEventListener("click", () => {
+        const confirmed = window.confirm(
+          "Are you sure you want to log out?"
+        );
+
+        if (!confirmed) return;
+
+        localStorage.removeItem(SESSION_KEY);
+        window.location.href = "index.html";
+      });
+    }
+
+    /* =========================================
+       SIDEBAR
+    ========================================= */
+
+    function setupSidebar() {
+      if (menuToggle) {
+        menuToggle.addEventListener("click", () => {
+          sidebar?.classList.toggle("open");
+          sidebarOverlay?.classList.toggle("visible");
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", closeSidebar);
+      }
+
+      document.querySelectorAll("#sidebar .nav-link").forEach((link) => {
+        link.addEventListener("click", closeSidebar);
+      });
+    }
+
+    function closeSidebar() {
+      sidebar?.classList.remove("open");
+      sidebarOverlay?.classList.remove("visible");
+    }
+
+    /* =========================================
+       DATE
+    ========================================= */
+
+    function displayCurrentDate() {
+      const dateElement = document.querySelector("#current-date");
+
+      if (!dateElement) return;
+
+      dateElement.textContent = new Date().toLocaleDateString(
+        "en-PK",
+        {
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }
+      );
+    }
+
+    /* =========================================
+       DEFAULT SETTINGS
+    ========================================= */
+
+    function getDefaultSettings() {
+      return {
+        name: "",
+        officeStart: "09:00",
+        officeEnd: "17:00",
+        graceMinutes: 15,
+        leaveQuota: 12,
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    function getCompanySettings() {
+      const savedSettings = readStorage(COMPANY_KEY, null);
+
+      if (
+        !savedSettings ||
+        typeof savedSettings !== "object" ||
+        Array.isArray(savedSettings)
+      ) {
+        return getDefaultSettings();
+      }
+
+      const defaults = getDefaultSettings();
+
+      return {
+        ...defaults,
+        ...savedSettings,
+        graceMinutes: Number(savedSettings.graceMinutes ?? defaults.graceMinutes),
+        leaveQuota: Number(savedSettings.leaveQuota ?? defaults.leaveQuota)
+      };
+    }
+
+    /* =========================================
+       LOAD SETTINGS
+    ========================================= */
+
+    function loadSettings() {
+      const settings = getCompanySettings();
+
+      companyNameInput.value = settings.name || "";
+      officeStartInput.value = settings.officeStart;
+      officeEndInput.value = settings.officeEnd;
+      graceMinutesInput.value = settings.graceMinutes;
+      leaveQuotaInput.value = settings.leaveQuota;
+
+      originalSettings = { ...settings };
+
+      updateAttendanceExample();
+    }
+
+    /* =========================================
+       FORM VALIDATION
+    ========================================= */
+
+    function validateSettings() {
+      const companyName = companyNameInput.value.trim();
+      const officeStart = officeStartInput.value;
+      const officeEnd = officeEndInput.value;
+      const graceMinutes = Number(graceMinutesInput.value);
+      const leaveQuota = Number(leaveQuotaInput.value);
+
+      if (!companyName) {
+        showMessage("Please enter the company name.", "error");
+        companyNameInput.focus();
+        return false;
+      }
+
+      if (!officeStart || !officeEnd) {
+        showMessage(
+          "Please select both office start and end times.",
+          "error"
+        );
+        return false;
+      }
+
+      if (officeEnd <= officeStart) {
+        showMessage(
+          "Office end time must be later than office start time.",
+          "error"
+        );
+        officeEndInput.focus();
+        return false;
+      }
+
+      if (
+        graceMinutesInput.value.trim() === "" ||
+        !Number.isInteger(graceMinutes) ||
+        graceMinutes < 0 ||
+        graceMinutes > 180
+      ) {
+        showMessage(
+          "Grace period must be a whole number from 0 to 180 minutes.",
+          "error"
+        );
+        graceMinutesInput.focus();
+        return false;
+      }
+
+      if (
+        leaveQuotaInput.value.trim() === "" ||
+        !Number.isInteger(leaveQuota) ||
+        leaveQuota < 0 ||
+        leaveQuota > 365
+      ) {
+        showMessage(
+          "Annual leave quota must be a whole number from 0 to 365 days.",
+          "error"
+        );
+        leaveQuotaInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    /* =========================================
+       GET FORM VALUES
+    ========================================= */
+
+    function getFormSettings() {
+      return {
+        name: companyNameInput.value.trim(),
+        officeStart: officeStartInput.value,
+        officeEnd: officeEndInput.value,
+        graceMinutes: Number(graceMinutesInput.value),
+        leaveQuota: Number(leaveQuotaInput.value),
+        createdAt:
+          originalSettings?.createdAt ||
+          new Date().toISOString()
+      };
+    }
+
+    /* =========================================
+       SAVE SETTINGS
+    ========================================= */
+
+    function handleSaveSettings(event) {
+      event.preventDefault();
+
+      clearMessage();
+
+      if (!validateSettings()) return;
+
+      const newSettings = getFormSettings();
+
+      const saved = saveCompanySettings(newSettings);
+
+      if (!saved) return;
+
+      originalSettings = { ...newSettings };
+
+      updateAttendanceExample();
+      showMessage("Company settings saved successfully.", "success");
+    }
+
+    /* =========================================
+       RESET UNSAVED CHANGES
+    ========================================= */
+
+    function resetSettings() {
+      if (!originalSettings) return;
+
+      const confirmed = window.confirm(
+        "Discard your unsaved changes?"
+      );
+
+      if (!confirmed) return;
+
+      companyNameInput.value = originalSettings.name || "";
+      officeStartInput.value = originalSettings.officeStart;
+      officeEndInput.value = originalSettings.officeEnd;
+      graceMinutesInput.value = originalSettings.graceMinutes;
+      leaveQuotaInput.value = originalSettings.leaveQuota;
+
+      clearMessage();
+      updateAttendanceExample();
+
+      showMessage("Unsaved changes have been discarded.", "info");
+    }
+
+    /* =========================================
+       ATTENDANCE EXAMPLE
+    ========================================= */
+
+    function formatTime(time) {
+      if (!time || !/^\d{2}:\d{2}$/.test(time)) {
+        return time || "--:--";
+      }
+
+      const [hours, minutes] = time.split(":").map(Number);
+
+      const date = new Date();
+      date.setHours(hours, minutes, 0, 0);
+
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    function addMinutesToTime(time, minutesToAdd) {
+      if (!time || !/^\d{2}:\d{2}$/.test(time)) {
+        return "--:--";
+      }
+
+      const [hours, minutes] = time.split(":").map(Number);
+      const totalMinutes = hours * 60 + minutes + minutesToAdd;
+
+      const adjustedHours = Math.floor(totalMinutes / 60) % 24;
+      const adjustedMinutes = totalMinutes % 60;
+
+      return formatTime(
+        `${String(adjustedHours).padStart(2, "0")}:${String(
+          adjustedMinutes
+        ).padStart(2, "0")}`
+      );
+    }
+
+    function updateAttendanceExample() {
+      if (!attendanceExample) return;
+
+      const officeStart = officeStartInput.value || "09:00";
+      const graceMinutes = Number(graceMinutesInput.value) || 0;
+
+      const graceEnd = addMinutesToTime(
+        officeStart,
+        graceMinutes
+      );
+
+      attendanceExample.textContent =
+        `With a ${formatTime(officeStart)} start and a ` +
+        `${graceMinutes}-minute grace period, arrival after ` +
+        `${graceEnd} is considered late.`;
+    }
+
+    /* =========================================
+       MESSAGES
+    ========================================= */
+
+    function showMessage(message, type = "info") {
+      if (!settingsMessage) return;
+
+      settingsMessage.textContent = message;
+      settingsMessage.className = `page-message ${type}`;
+      settingsMessage.hidden = false;
+    }
+
+    function clearMessage() {
+      if (!settingsMessage) return;
+
+      settingsMessage.textContent = "";
+      settingsMessage.className = "page-message";
+      settingsMessage.hidden = true;
+    }
+
+    /* =========================================
+       INITIALIZE
+    ========================================= */
+
+    function initSettings() {
+      if (!checkAdminAccess()) return;
+
+      setupAdminProfile();
+      setupLogout();
+      setupSidebar();
+      displayCurrentDate();
+      loadSettings();
+
+      settingsForm?.addEventListener(
+        "submit",
+        handleSaveSettings
+      );
+
+      resetButton?.addEventListener("click", resetSettings);
+
+      officeStartInput?.addEventListener(
+        "input",
+        updateAttendanceExample
+      );
+
+      graceMinutesInput?.addEventListener(
+        "input",
+        updateAttendanceExample
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", initSettings);
+
+  </script>
+</body>
+
+</html>
